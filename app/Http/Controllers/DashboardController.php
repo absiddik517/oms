@@ -13,38 +13,22 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $previous_office_count = 2; // Office::where('created_at', '<', now()->subDays(1))->count(); // Get the previous office count
-        $current_office_count = Office::count(); // Get the current office count
-        $change = $previous_office_count > 0 ? (($current_office_count - $previous_office_count) / $previous_office_count * 100) : 0; // Calculate the percentage change
-        
         return inertia('Dashboard', [
-            "offices" => $this->officeInformation(),
-            "letterTypes" => $this->letterTypeInformation(),
+            "offices" => $this->dashboardInformation(Office::class),
+            "letterTypes" => $this->dashboardInformation(LetterType::class),
         ]);
     }
 
-    private function officeInformation()
+    private function dashboardInformation($model)
     {
-        $previous_office_count = 2; // Office::where('created_at', '<', now()->subDays(1))->count(); // Get the previous office count
-        $current_office_count = Office::count(); // Get the current office count
-        $change = $previous_office_count > 0 ? (($current_office_count - $previous_office_count) / $previous_office_count * 100) : 0; // Calculate the percentage change
+        $previous_count = $model::where('created_at', '<', now()->subDays(1))->count(); // Get the previous count
+        $current_count = $model::count(); // Get the current count
+        $change = $previous_count > 0 ? (($current_count - $previous_count) / $previous_count * 100) : 0; // Calculate the percentage change
 
         return [
-            "count" => $current_office_count,
-            "change" => $change,
+            "count" => $current_count,
+            "change" => round($change, 2),
         ];
     }
 
-    private function letterTypeInformation()
-    {
-        // Similar logic to officeInformation() but for letter types    
-        $previous_letter_type_count = 5; // LetterType::where('created_at', '<', now()->subDays(1))->count(); // Get the previous letter type count
-        $current_letter_type_count = LetterType::count(); // Get the current letter type count
-        $change = $previous_letter_type_count > 0 ? (($current_letter_type_count - $previous_letter_type_count) / $previous_letter_type_count * 100) : 0; // Calculate the percentage change
-
-        return [
-            "count" => $current_letter_type_count,
-            "change" => $change,
-        ];
-    }
 }

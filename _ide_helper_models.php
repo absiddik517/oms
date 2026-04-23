@@ -18,6 +18,7 @@ namespace App\Models{
  * @property string $name
  * @property string|null $description
  * @property string $code
+ * @property int $is_active
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Office $office
@@ -28,6 +29,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Folder whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Folder whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Folder whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Folder whereIsActive($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Folder whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Folder whereOfficeId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Folder whereUpdatedAt($value)

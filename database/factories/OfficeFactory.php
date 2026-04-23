@@ -17,18 +17,29 @@ class OfficeFactory extends Factory
      */
     public function definition(): array
     {
+
+        $upazilas = [
+            ['bn' => 'হালুয়াঘাট', 'en' => 'Haluaghat'],
+            ['bn' => 'ধোবউড়া', 'en' => 'Dhobaura'],
+            ['bn' => 'ফুলপুর', 'en' => 'Phulpur'],
+            ['bn' => 'মুক্তাগাছা', 'en' => 'Muktagacha'],
+            ['bn' => 'গৌরিপুর', 'en' => 'Gauripur'],
+            ['bn' => 'ত্রিশাল', 'en' => 'Trishal'],
+            ['bn' => 'ফুলবাড়িয়া', 'en' => 'Fulbaria'],
+            ['bn' => 'ময়মনসিংহ সদর', 'en' => 'Mymensingh Sadar'],
+        ];
         return [
             'office_name' => json_encode([
-                'bn' => $this->faker->unique()->company(),
-                'en' => $this->faker->unique()->company(),
+                'bn' => "উপজেলা উপানুষ্ঠানিক শিক্ষা ব্যুরো",
+                'en' => "Upazila Non-Formal Education Bureau",
             ]),
             'upazila' => json_encode([
-                'bn' => $this->faker->city(),
-                'en' => $this->faker->city(),
+                'bn' => $upazilas[array_rand($upazilas)]['bn'],
+                'en' => $upazilas[array_rand($upazilas)]['en'],
             ]),
             'district' => json_encode([
-                'bn' => $this->faker->state(),
-                'en' => $this->faker->state(),
+                'bn' => 'ময়মনসিংহ',
+                'en' => 'Mymensingh',
             ]),
             'geo_code' => $this->faker->numberBetween(6100, 6199),
             'office_code' => $this->faker->numberBetween(1240303142000, 1240303142999),

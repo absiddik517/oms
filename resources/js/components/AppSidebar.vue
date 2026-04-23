@@ -24,6 +24,11 @@ const mainNavItems: NavItem[] = [
         href: route('letter-types.index'),
         icon: Folder,
     },
+    {
+        title: 'Folders',
+        href: route('folders.index'),
+        icon: Folder,
+    },
 ];
 
 const footerNavItems: NavItem[] = [
