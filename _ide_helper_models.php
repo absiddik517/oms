@@ -44,6 +44,7 @@ namespace App\Models{
  * @property int $code
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Database\Factories\LetterTypeFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|LetterType newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|LetterType newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|LetterType query()
@@ -79,6 +80,62 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Office whereUpdatedAt($value)
  */
 	class Office extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * @property int $id
+ * @property string|null $name
+ * @property string|null $designation
+ * @property string|null $organization
+ * @property string|null $address
+ * @property string|null $email
+ * @property string|null $phone
+ * @property int|null $created_by
+ * @property int|null $updated_by
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipient newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipient newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipient query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipient whereAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipient whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipient whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipient whereDesignation($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipient whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipient whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipient whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipient whereOrganization($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipient wherePhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipient whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipient whereUpdatedBy($value)
+ */
+	class Recipient extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * @property int $id
+ * @property int|null $office_id
+ * @property string $name
+ * @property string $code
+ * @property int|null $created_by
+ * @property int|null $updated_by
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Subject newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Subject newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Subject query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Subject whereCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Subject whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Subject whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Subject whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Subject whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Subject whereOfficeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Subject whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Subject whereUpdatedBy($value)
+ */
+	class Subject extends \Eloquent {}
 }
 
 namespace App\Models{

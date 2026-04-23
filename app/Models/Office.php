@@ -2,11 +2,12 @@
 
 namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+
+use App\Models\Subject;
 
 class Office extends Model
 {
-    use HasFactory;
+
 
 
 
@@ -22,4 +23,12 @@ class Office extends Model
         'geo_code',
         'office_code',
     ];
+
+    public function subjects()
+    {
+        return Subject::where(function ($query) {
+            $query->where('office_id', $this->id)
+                  ->orWhereNull('office_id');
+        });
+    }
 }
