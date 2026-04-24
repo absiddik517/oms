@@ -145,6 +145,37 @@ namespace App\Models{
 namespace App\Models{
 /**
  * @property int $id
+ * @property string $name
+ * @property string|null $designation
+ * @property string $category
+ * @property string|null $address
+ * @property string $status
+ * @property string|null $joining_date
+ * @property string|null $leaving_date
+ * @property int $office_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Officer newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Officer newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Officer query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Officer whereAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Officer whereCategory($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Officer whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Officer whereDesignation($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Officer whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Officer whereJoiningDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Officer whereLeavingDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Officer whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Officer whereOfficeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Officer whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Officer whereUpdatedAt($value)
+ */
+	class Officer extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * @property int $id
  * @property string|null $name
  * @property string|null $designation
  * @property string|null $organization

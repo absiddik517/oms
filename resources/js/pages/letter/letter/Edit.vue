@@ -3,49 +3,54 @@ import AppLayout from '@/layouts/AppLayout.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import Input from '@/components/ui/form/Input.vue';
 import Button from '@/components/ui/Button.vue';
-import RichText from '@/components/ui/form/RichText.vue';
 
 export default {
-    name: 'LetterCreate',
+    name: 'LetterEdit',
+
     components: {
         AppLayout,
         Head,
         Link,
         Input,
         Button,
-        RichText,
     },
+
     props: {
         offices: Array,
         topics: Array,
         folders: Array,
         recipients: Array,
+        letter: Object,
     },
+
     data() {
         return {
+            existingAttachments: this.letter.attachments || [],
+
             form: useForm({
-                office_id: '',
-                topic_id: '',
-                folder_id: '',
-                letter_number: '',
-                subject: '',
-                body: '',
-                letter_date: '',
-                status: 'draft',
+                office_id: this.letter.office_id || '',
+                topic_id: this.letter.topic_id || '',
+                folder_id: this.letter.folder_id || '',
+                letter_number: this.letter.letter_number || '',
+                subject: this.letter.subject || '',
+                body: this.letter.body || '',
+                letter_date: this.letter.letter_date || '',
+                status: this.letter.status,
 
                 // recipients
-                to: '',
-                cc: [],
+                to: this.letter.recipients?.find(r => r.pivot.type === 'to')?.id ?? '',
+                cc: this.letter.recipients?.filter(r => r.pivot.type === 'cc').map(r => r.id) || [],
 
                 // attachments
                 attachments: [],
+                deleted_attachments: [],
             }),
 
             loading: false,
 
             breadcrumbs: [
                 { title: 'Letters', href: route('letters.index') },
-                { title: 'Create', href: route('letters.create') },
+                { title: 'Edit', href: route('letters.edit', this.letter.id) },
             ],
         };
     },
@@ -55,8 +60,8 @@ export default {
             this.loading = true;
             this.form.clearErrors();
 
-            this.form.post(route('letters.store'), {
-                forceFormData: true, // important for files
+            this.form.post(route('letters.update', this.letter.id), {
+                forceFormData: true,
                 preserveScroll: true,
 
                 onSuccess: () => {
@@ -72,17 +77,30 @@ export default {
         handleFileChange(e) {
             this.form.attachments = Array.from(e.target.files);
         },
+
+        removeAttachment(id) {
+            this.existingAttachments = this.existingAttachments.filter(f => f.id !== id);
+            this.form.deleted_attachments.push(id);
+        },
+
+        getOfficeName(office) {
+            try {
+                return JSON.parse(office.office_name).bn;
+            } catch {
+                return '';
+            }
+        }
     },
 };
 </script>
 
 <template>
 
-    <Head title="Create Letter" />
+    <Head title="Edit Letter" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="container mx-auto p-4">
-            <h1 class="text-2xl font-bold mb-4">Create Letter</h1>
+            <h1 class="text-2xl font-bold mb-4">Edit Letter</h1>
 
             <form @submit.prevent="submit" class="space-y-4">
 
@@ -92,7 +110,7 @@ export default {
                     <select v-model="form.office_id" class="input">
                         <option value="">Select Office</option>
                         <option v-for="office in offices" :key="office.id" :value="office.id">
-                            {{ JSON.parse(office.office_name).bn }}
+                            {{ getOfficeName(office) }}
                         </option>
                     </select>
                     <div class="text-red-500 text-sm">{{ form.errors.office_id }}</div>
@@ -135,7 +153,7 @@ export default {
                 <!-- BODY -->
                 <div>
                     <label>Body</label>
-                    <textarea v-model="form.body" class="input h-32"></textarea>
+                    <textarea v-model="form.body" class="input h-40"></textarea>
                 </div>
 
                 <!-- DATE -->
@@ -144,7 +162,17 @@ export default {
                     <Input type="date" v-model="form.letter_date" />
                 </div>
 
-                <!-- TO (single receiver) -->
+                <!-- STATUS -->
+                <div>
+                    <label>Status</label>
+                    <select v-model="form.status" class="input">
+                        <option value="draft">Draft</option>
+                        <option value="completed">Completed</option>
+                        <option value="archived">Archived</option>
+                    </select>
+                </div>
+
+                <!-- TO -->
                 <div>
                     <label>To</label>
                     <select v-model="form.to" class="input">
@@ -157,7 +185,7 @@ export default {
                     <div class="text-red-500 text-sm">{{ form.errors.to }}</div>
                 </div>
 
-                <!-- CC (multiple) -->
+                <!-- CC -->
                 <div>
                     <label>CC</label>
                     <select v-model="form.cc" multiple class="input h-32">
@@ -168,9 +196,24 @@ export default {
                     </select>
                 </div>
 
-                <!-- ATTACHMENTS -->
+                <!-- EXISTING ATTACHMENTS -->
+                <div v-if="existingAttachments.length">
+                    <p class="font-semibold">Existing Attachments:</p>
+
+                    <div v-for="file in existingAttachments" :key="file.id" class="flex gap-2 items-center">
+                        <a :href="`/storage/${file.file_path}`" target="_blank" class="text-blue-600">
+                            {{ file.file_name }}
+                        </a>
+
+                        <button type="button" @click="removeAttachment(file.id)" class="text-red-500 text-sm">
+                            Remove
+                        </button>
+                    </div>
+                </div>
+
+                <!-- NEW ATTACHMENTS -->
                 <div>
-                    <label>Attachments</label>
+                    <label>Add New Attachments</label>
                     <input type="file" multiple @change="handleFileChange" />
                     <div class="text-red-500 text-sm">{{ form.errors.attachments }}</div>
                 </div>
@@ -179,7 +222,7 @@ export default {
                 <div class="text-right">
                     <Button type="submit" :loading="loading">
                         <span v-if="loading">Saving...</span>
-                        <span v-else>Create Letter</span>
+                        <span v-else>Update Letter</span>
                     </Button>
 
                     <Link :href="route('letters.index')" class="ml-2 text-gray-600">

@@ -18,7 +18,7 @@ defineProps<{
     count: number;
     change: string;
   };
-  letterTypes: {
+  topics: {
     count: number;
     change: string;
   };
@@ -47,7 +47,7 @@ defineProps<{
         <div
           class="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
           <!-- Replace with actual content 2 -->
-          <Matric :count="letterTypes.count" :change="letterTypes.change" title="Total Letter Types">
+          <Matric :count="topics.count" :change="topics.change" title="Total Topics">
             <template #icon>
               <i class="fa fa-file-alt"></i>
             </template>

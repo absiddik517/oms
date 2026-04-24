@@ -30,6 +30,15 @@ class LetterController extends Controller
         ]);
     }
 
+    public function show(Letter $letter)
+    {
+        $letter->load(['office', 'topic', 'folder', 'to', 'cc', 'recipients', 'attachments']);
+        //dd($letter);
+        return Inertia::render('letter/letter/Show', [
+            'letter' => $letter,
+        ]);
+    }
+
     /**
      * Create form
      */
@@ -131,11 +140,13 @@ class LetterController extends Controller
      */
     public function edit(Letter $letter)
     {
-        $letter->load(['recipients', 'attachments']);
-
+        $letter->load(['recipients', 'attachments']); 
         return Inertia::render('letter/letter/Edit', [
             'letter' => $letter,
             'recipients' => Recipient::all(),
+            'offices' => Office::all(),
+            'topics' => Topic::all(),
+            'folders' => Folder::all(),
         ]);
     }
 
@@ -144,6 +155,7 @@ class LetterController extends Controller
      */
     public function update(Request $request, Letter $letter)
     {
+        dd($request->all());
         $validated = $request->validate([
             'office_id' => 'nullable|exists:offices,id',
             'topic_id' => 'nullable|exists:topics,id',

@@ -20,6 +20,11 @@ const mainNavItems: NavItem[] = [
         icon: House,
     },
     {
+        title: 'Officers',
+        href: route('officers.index'),
+        icon: User,
+    },
+    {
         title: 'Topics',
         href: route('topics.index'),
         icon: ListChecks,

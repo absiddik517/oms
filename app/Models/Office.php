@@ -31,4 +31,5 @@ class Office extends Model
                   ->orWhereNull('office_id');
         });
     }
+
 }

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Office;
-use App\Models\LetterType;
+use App\Models\Topic;
 
 
 
@@ -15,7 +15,7 @@ class DashboardController extends Controller
     {
         return inertia('Dashboard', [
             "offices" => $this->dashboardInformation(Office::class),
-            "letterTypes" => $this->dashboardInformation(LetterType::class),
+            "topics" => $this->dashboardInformation(Topic::class),
         ]);
     }
 

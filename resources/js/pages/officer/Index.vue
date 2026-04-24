@@ -4,10 +4,10 @@ import AppLayout from '@/layouts/AppLayout.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 
 export default {
-    name: 'LetterIndex',
+    name: 'OfficerIndex',
     components: { AppLayout, Head, Link, Button },
     props: {
-        letters: {
+        officers: {
             type: Array,
             required: true,
         },
@@ -15,7 +15,7 @@ export default {
     data() {
         return {
             breadcrumbs: [
-                { title: 'Letters', href: route('letters.index') },
+                { title: 'Officers', href: route('officers.index') },
             ],
             loading: false,
             deleteingId: null,
@@ -23,10 +23,10 @@ export default {
     },
     methods: {
         handleDelete(id) {
-            if (confirm('Delete this letter?')) {
+            if (confirm('Delete this officer?')) {
                 this.loading = true;
                 this.deleteingId = id;
-                router.delete(route('letters.destroy', id), {
+                router.delete(route('officers.destroy', id), {
                     onSuccess: () => {
                         this.loading = false;
                         this.deleteingId = null;
@@ -46,49 +46,45 @@ export default {
 
 <template>
 
-    <Head title="Letters" />
+    <Head title="Officers" />
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="container mx-auto p-4">
             <div class="flex justify-between items-center mb-4">
-                <h1 class="text-2xl font-bold">Letters</h1>
-                <Link :href="route('letters.create')"
+                <h1 class="text-2xl font-bold">Officers</h1>
+                <Link :href="route('officers.create')"
                     class="inline-block rounded-sm border border-black bg-[#1b1b18] px-5 py-1.5 text-sm leading-normal text-white hover:border-black hover:bg-black dark:border-[#eeeeec] dark:bg-[#eeeeec] dark:text-[#1C1C1A] dark:hover:border-white dark:hover:bg-white">
-                Add Letter</Link>
+                Add Officer</Link>
             </div>
             <div class="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default">
                 <table class="w-full text-sm text-left rtl:text-right text-body">
                     <thead class="text-sm text-body bg-neutral-secondary-soft border-b rounded-base border-default">
                         <tr>
                             <th class="px-6 py-3 font-medium" scope="col">ID</th>
-                            <th class="px-6 py-3 font-medium" scope="col">Letter Number</th>
-                            <th class="px-6 py-3 font-medium" scope="col">Subject</th>
-                            <th class="px-6 py-3 font-medium" scope="col">Date</th>
+                            <th class="px-6 py-3 font-medium" scope="col">Officer</th>
                             <th class="px-6 py-3 font-medium text-right" scope="col">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="letter in letters" :key="letter.id"
+                        <tr v-for="officer in officers" :key="officer.id"
                             class="bg-neutral-primary border-b border-default">
-                            <td class="px-6 py-4">{{ letter.id }}</td>
+                            <td class="px-6 py-4">{{ officer.id }}</td>
                             <td class="px-6 py-4">
-                                {{ letter.letter_number }}
-                            </td>
-                            <td>
-                                <Link :href="route('letters.show', letter.id)">
-                                {{ letter.subject }}
-                                </Link>
-                            </td>
-                            <td>
-                                {{ letter.letter_date }}
+                                {{ officer.name }} <br v-if="officer.name" />
+                                {{ officer.designation }} <br v-if="officer.designation" />
+                                {{ officer.organization }}, {{ officer.address }} <br
+                                    v-if="officer.organization || officer.address" />
+
+                                {{ officer.email }} <br v-if="officer.email" />
+                                {{ officer.phone }}
                             </td>
 
                             <td class="text-right">
-                                <Link :href="route('letters.edit', letter.id)"
+                                <Link :href="route('officers.edit', officer.id)"
                                     class="mr-1 inline-block rounded-sm border border-black bg-[#1b1b18] px-5 py-1.5 text-sm leading-normal text-white hover:border-black hover:bg-black dark:border-[#eeeeec] dark:bg-[#eeeeec] dark:text-[#1C1C1A] dark:hover:border-white dark:hover:bg-white">
                                 <i class="fa fa-edit"></i>
                                 </Link>
-                                <Button @click="handleDelete(letter.id)" :disabled="loading" type="button">
-                                    <span v-if="loading && letter.id === deleteingId">
+                                <Button @click="handleDelete(officer.id)" :disabled="loading" type="button">
+                                    <span v-if="loading && officer.id === deleteingId">
                                         <i class="fa fa-spinner fa-spin"></i>
                                     </span>
                                     <span v-else>

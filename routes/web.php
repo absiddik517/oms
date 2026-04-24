@@ -4,6 +4,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Letter\FolderController;
 use App\Http\Controllers\Letter\RecipientController;
 use App\Http\Controllers\Letter\TopicController;
+use App\Http\Controllers\Office\OfficerController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\OfficeController;
@@ -24,10 +25,13 @@ Route::group(['prefix' => 'letters', 'as' => 'letters.', 'middleware' => ['auth'
     Route::get('/', [App\Http\Controllers\Letter\LetterController::class, 'index'])->name('index');
     Route::get('/create', [App\Http\Controllers\Letter\LetterController::class, 'create'])->name('create');
     Route::post('/', [App\Http\Controllers\Letter\LetterController::class, 'store'])->name('store');
-    Route::get('/{ letter }/edit', [App\Http\Controllers\Letter\LetterController::class, 'edit'])->name('edit');
-    Route::put('/{letter}', [App\Http\Controllers\Letter\LetterController::class, 'update'])->name('update');
+    Route::get('/{letter}/edit', [App\Http\Controllers\Letter\LetterController::class, 'edit'])->name('edit');
+    Route::post('/{letter}/update', [App\Http\Controllers\Letter\LetterController::class, 'update'])->name('update');
     Route::delete('/{letter}', [App\Http\Controllers\Letter\LetterController::class, 'destroy'])->name('destroy');
+    Route::get('/{letter}', [App\Http\Controllers\Letter\LetterController::class, 'show'])->name('show');
 });
+
+Route::resource('officers', OfficerController::class)->middleware(['auth', 'verified']);    
 
 
 
