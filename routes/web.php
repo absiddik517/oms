@@ -20,5 +20,16 @@ Route::resource('folders', FolderController::class)->middleware(['auth', 'verifi
 Route::resource('topics', TopicController::class)->middleware(['auth', 'verified']);
 Route::resource('recipients', RecipientController::class)->middleware(['auth', 'verified']);
 
+Route::group(['prefix' => 'letters', 'as' => 'letters.', 'middleware' => ['auth', 'verified']], function () {
+    Route::get('/', [App\Http\Controllers\Letter\LetterController::class, 'index'])->name('index');
+    Route::get('/create', [App\Http\Controllers\Letter\LetterController::class, 'create'])->name('create');
+    Route::post('/', [App\Http\Controllers\Letter\LetterController::class, 'store'])->name('store');
+    Route::get('/{ letter }/edit', [App\Http\Controllers\Letter\LetterController::class, 'edit'])->name('edit');
+    Route::put('/{letter}', [App\Http\Controllers\Letter\LetterController::class, 'update'])->name('update');
+    Route::delete('/{letter}', [App\Http\Controllers\Letter\LetterController::class, 'destroy'])->name('destroy');
+});
+
+
+
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

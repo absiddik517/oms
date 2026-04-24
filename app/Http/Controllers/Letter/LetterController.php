@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 use App\Models\Letter;
 use App\Models\Recipient;
 use App\Models\Attachment;
+use App\Models\Folder;
+use App\Models\Office;
+use App\Models\Topic;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
@@ -21,8 +24,7 @@ class LetterController extends Controller
     {
         $letters = Letter::with(['office', 'topic'])
             ->latest()
-            ->paginate(10);
-
+            ->get();
         return Inertia::render('letter/letter/Index', [
             'letters' => $letters,
         ]);
@@ -35,6 +37,9 @@ class LetterController extends Controller
     {
         return Inertia::render('letter/letter/Create', [
             'recipients' => Recipient::all(),
+            'offices' => Office::all(),
+            'topics' => Topic::all(),
+            'folders' => Folder::all(),
         ]);
     }
 

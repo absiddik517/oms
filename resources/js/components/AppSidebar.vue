@@ -33,7 +33,12 @@ const mainNavItems: NavItem[] = [
         title: 'Receipients',
         href: route('recipients.index'),
         icon: User,
-    }
+    },
+    {
+        title: 'Letters',
+        href: route('letters.index'),
+        icon: BookOpen,
+    },
 ];
 
 const footerNavItems: NavItem[] = [
