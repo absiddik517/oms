@@ -31,7 +31,8 @@ Route::group(['prefix' => 'letters', 'as' => 'letters.', 'middleware' => ['auth'
     Route::get('/{letter}', [App\Http\Controllers\Letter\LetterController::class, 'show'])->name('show');
 });
 
-Route::resource('officers', OfficerController::class)->middleware(['auth', 'verified']);    
+Route::resource('officers', OfficerController::class)->middleware(['auth', 'verified']); 
+Route::resource('users', App\Http\Controllers\UserController::class)->middleware(['auth', 'verified']);   
 
 
 

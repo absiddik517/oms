@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('designation')->nullable();
-            $table->enum('category', ['regular', 'additional change', 'current change'])->default('regular');
+            $table->enum('category', ['regular', 'additional', 'current'])->default('regular');
             $table->string('address')->nullable();
             $table->string('email')->nullable();
             $table->string('phone')->nullable();

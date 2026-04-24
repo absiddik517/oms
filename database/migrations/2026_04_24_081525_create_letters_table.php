@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('letter_number')->nullable();
             $table->string('subject')->nullable();
             $table->text('body')->nullable();
+            $table->foreignId('officer_id')->nullable()->constrained('officers')->nullOnDelete();
             $table->date('letter_date')->nullable();
             $table->foreignId('recipient_id')
                     ->nullable()

@@ -44,6 +44,11 @@ const mainNavItems: NavItem[] = [
         href: route('letters.index'),
         icon: BookOpen,
     },
+    {
+        title: 'Users',
+        href: route('users.index'),
+        icon: User,
+    },
 ];
 
 const footerNavItems: NavItem[] = [

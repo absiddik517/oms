@@ -14,9 +14,9 @@ class OfficerController extends Controller
      */
     public function index()
     {
-        $oficers = Officer::with('office')->get();
+        $officers = Officer::with('office')->currentoffice()->get();
         return inertia('officer/Index', [
-            'oficers' => $oficers
+            'officers' => $officers
         ]);
     }
 
@@ -39,13 +39,13 @@ class OfficerController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'designation' => 'required|string|max:255',
-            'category' => 'required|in:regular,additional change,current change',
+            'category' => 'required|in:regular,additional,current',
             'address' => 'nullable|string|max:255',
-            'status' => 'required|in:active,leaved',
+            'status' => 'nullable|in:active,leaved',
             'email' => 'nullable|email|max:255',
             'phone' => 'nullable|string|max:20',
             'joining_date' => 'nullable|date',
-            'leaving_date' => 'nullable|date|after_or_equal:joining_date',
+            'leaving_date' => 'required_if:status,leaved|date|after_or_equal:joining_date',
             'office_id' => 'required|exists:offices,id',
         ]);
 
@@ -88,13 +88,13 @@ class OfficerController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'designation' => 'required|string|max:255',
-            'category' => 'required|in:regular,additional change,current change',
+            'category' => 'required|in:regular,additional,current',
             'address' => 'nullable|string|max:255',
             'status' => 'required|in:active,leaved',
             'email' => 'nullable|email|max:255',
             'phone' => 'nullable|string|max:20',
             'joining_date' => 'nullable|date',
-            'leaving_date' => 'nullable|date|after_or_equal:joining_date',
+            'leaving_date' => 'required_if:status,leaved|date|after_or_equal:joining_date',
             'office_id' => 'required|exists:offices,id',
         ]);
 

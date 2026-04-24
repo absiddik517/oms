@@ -21,5 +21,10 @@ class Topic extends Model
         'updated_by',
     ];
 
+    public function scopeCurrentoffice($query){
+        $query->where('office_id', auth()->user()->office_id)
+                ->orWhereNull('office_id');
+    }
+
     
 }

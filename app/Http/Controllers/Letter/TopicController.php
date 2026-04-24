@@ -16,7 +16,7 @@ class TopicController extends Controller
      */
     public function index()
     {
-        $topics = Topic::all();
+        $topics = Topic::currentOffice()->get();
         return inertia('letter/topic/Index', [
             'topics' => $topics,
         ]);

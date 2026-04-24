@@ -1,14 +1,14 @@
 <script>
-import Button from '@/components/ui/Button.vue';
 import Badge from '@/components/ui/Badge.vue';
+import Button from '@/components/ui/Button.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 
 export default {
-    name: 'OfficerIndex',
+    name: 'UserIndex',
     components: { AppLayout, Head, Link, Button, Badge },
     props: {
-        officers: {
+        users: {
             type: Array,
             required: true,
         },
@@ -16,7 +16,7 @@ export default {
     data() {
         return {
             breadcrumbs: [
-                { title: 'Officers', href: route('officers.index') },
+                { title: 'Users', href: route('users.index') },
             ],
             loading: false,
             deleteingId: null,
@@ -24,10 +24,10 @@ export default {
     },
     methods: {
         handleDelete(id) {
-            if (confirm('Delete this officer?')) {
+            if (confirm('Delete this user?')) {
                 this.loading = true;
                 this.deleteingId = id;
-                router.delete(route('officers.destroy', id), {
+                router.delete(route('users.destroy', id), {
                     onSuccess: () => {
                         this.loading = false;
                         this.deleteingId = null;
@@ -40,60 +40,70 @@ export default {
                 })
             }
         },
-
+        getLang(obj, key) {
+            if (!obj) return '';
+            if (typeof obj === 'string') {
+                try {
+                    obj = JSON.parse(obj);
+                } catch (e) { return ''; }
+            }
+            return obj[key] || '';
+        },
     },
 };
 </script>
 
 <template>
 
-    <Head title="Officers" />
+    <Head title="Users" />
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="container mx-auto p-4">
             <div class="flex justify-between items-center mb-4">
-                <h1 class="text-2xl font-bold">Officers</h1>
-                <Link :href="route('officers.create')"
+                <h1 class="text-2xl font-bold">Users</h1>
+                <Link :href="route('users.create')"
                     class="inline-block rounded-sm border border-black bg-[#1b1b18] px-5 py-1.5 text-sm leading-normal text-white hover:border-black hover:bg-black dark:border-[#eeeeec] dark:bg-[#eeeeec] dark:text-[#1C1C1A] dark:hover:border-white dark:hover:bg-white">
-                Add Officer</Link>
+                Add User</Link>
             </div>
             <div class="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default">
                 <table class="w-full text-sm text-left rtl:text-right text-body">
                     <thead class="text-sm text-body bg-neutral-secondary-soft border-b rounded-base border-default">
                         <tr>
                             <th class="px-6 py-3 font-medium" scope="col">ID</th>
-                            <th class="px-6 py-3 font-medium" scope="col">Officer</th>
-                            <th class="px-6 py-3 font-medium text-center" scope="col">Contact</th>
-                            <th class="px-6 py-3 font-medium text-center" scope="col">Status</th>
+                            <th class="px-6 py-3 font-medium" scope="col">Name</th>
+                            <th class="px-6 py-3 font-medium" scope="col">Role</th>
                             <th class="px-6 py-3 font-medium text-right" scope="col">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="officer in officers" :key="officer.id"
-                            class="bg-neutral-primary border-b border-default">
-                            <td class="px-6 py-4">{{ officer.id }}</td>
+                        <tr v-for="user in users" :key="user.id" class="bg-neutral-primary border-b border-default">
+                            <td class="px-6 py-4">{{ user.id }}</td>
                             <td class="px-6 py-4">
-                                {{ officer.name }} <br />
-                                {{ officer.designation }} <br />
-                                {{ JSON.parse(officer.office.office_name).bn }}, {{
-                                    JSON.parse(officer.office.upazila).bn }}, {{ JSON.parse(officer.office.district).bn }}
+                                {{ user.name }} <br />
+                                {{ user.email }}
                             </td>
-                            <td class="px-6 py-4 text-center">
-                                <p v-if="officer.email"><i class="fa fa-envelope"></i> {{ officer.email }}</p>
-                                <p v-if="officer.phone"><i class="fa fa-phone"></i> {{ officer.phone }}</p>
+                            <td>
+                                <Badge :type="user.role === 'admin' ? 'success' : 'danger'" no_icon>
+                                    {{ user.role === 'admin' ? 'Admin' : 'User' }}
+                                </Badge>
                             </td>
-                            <td class="px-6 py-4 text-center">
-                                <Badge :type="officer.status === 'active' ? 'success' : 'danger'">
-                                    {{ officer.status }}
+                            <td>
+                                <Badge v-if="user.office" type="success" no_icon>
+                                    {{ JSON.parse(user.office.office_name).bn }}, {{
+                                        JSON.parse(user.office.upazila).bn }}, {{
+                                        JSON.parse(user.office.district).bn }}
+                                </Badge>
+                                <Badge v-else type="danger">
+                                    No Office Assigned
                                 </Badge>
                             </td>
 
                             <td class="text-right">
-                                <Link :href="route('officers.edit', officer.id)"
+                                <Link :href="route('users.edit', user.id)"
                                     class="mr-1 inline-block rounded-sm border border-black bg-[#1b1b18] px-5 py-1.5 text-sm leading-normal text-white hover:border-black hover:bg-black dark:border-[#eeeeec] dark:bg-[#eeeeec] dark:text-[#1C1C1A] dark:hover:border-white dark:hover:bg-white">
                                 <i class="fa fa-edit"></i>
                                 </Link>
-                                <Button @click="handleDelete(officer.id)" :disabled="loading" type="button">
-                                    <span v-if="loading && officer.id === deleteingId">
+                                <Button @click="handleDelete(user.id)" :disabled="loading" type="button">
+                                    <span v-if="loading && user.id === deleteingId">
                                         <i class="fa fa-spinner fa-spin"></i>
                                     </span>
                                     <span v-else>
