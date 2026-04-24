@@ -6,7 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Helpers\HasDefault;
 
-class Subject extends Model
+class Topic extends Model
 {
     use HasDefault;
     

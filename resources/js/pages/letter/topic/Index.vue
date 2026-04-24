@@ -4,10 +4,10 @@ import AppLayout from '@/layouts/AppLayout.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 
 export default {
-    name: 'SubjectsIndex',
+    name: 'TopicsIndex',
     components: { AppLayout, Head, Link, Button },
     props: {
-        subjects: {
+        topics: {
             type: Array,
             required: true,
         },
@@ -15,7 +15,7 @@ export default {
     data() {
         return {
             breadcrumbs: [
-                { title: 'Subjects', href: route('subject.index') },
+                { title: 'Topics', href: route('topics.index') },
             ],
             loading: false,
             deleteingId: null,
@@ -23,10 +23,10 @@ export default {
     },
     methods: {
         handleDelete(id) {
-            if (confirm('Delete this subject?')) {
+            if (confirm('Delete this topic?')) {
                 this.loading = true;
                 this.deleteingId = id;
-                router.delete(route('subject.destroy', id), {
+                router.delete(route('topics.destroy', id), {
                     onSuccess: () => {
                         this.loading = false;
                         this.deleteingId = null;
@@ -46,14 +46,14 @@ export default {
 
 <template>
 
-    <Head title="Subjects" />
+    <Head title="Topics" />
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="container mx-auto p-4">
             <div class="flex justify-between items-center mb-4">
-                <h1 class="text-2xl font-bold">Subjects</h1>
-                <Link :href="route('subject.create')"
+                <h1 class="text-2xl font-bold">Topics</h1>
+                <Link :href="route('topics.create')"
                     class="inline-block rounded-sm border border-black bg-[#1b1b18] px-5 py-1.5 text-sm leading-normal text-white hover:border-black hover:bg-black dark:border-[#eeeeec] dark:bg-[#eeeeec] dark:text-[#1C1C1A] dark:hover:border-white dark:hover:bg-white">
-                Add Subject</Link>
+                Add Topic</Link>
             </div>
             <div class="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default">
                 <table class="w-full text-sm text-left rtl:text-right text-body">
@@ -67,26 +67,25 @@ export default {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="subject in subjects" :key="subject.id"
-                            class="bg-neutral-primary border-b border-default">
-                            <td class="px-6 py-4">{{ subject.id }}</td>
+                        <tr v-for="topic in topics" :key="topic.id" class="bg-neutral-primary border-b border-default">
+                            <td class="px-6 py-4">{{ topic.id }}</td>
                             <td class="px-6 py-4">
-                                {{ subject.office_id }}
+                                {{ topic.office_id }}
                             </td>
                             <td>
-                                {{ subject.name }}
+                                {{ topic.name }}
                             </td>
                             <td>
-                                {{ subject.code }}
+                                {{ topic.code }}
                             </td>
 
                             <td class="text-right">
-                                <Link :href="route('subject.edit', subject.id)"
+                                <Link :href="route('topics.edit', topic.id)"
                                     class="mr-1 inline-block rounded-sm border border-black bg-[#1b1b18] px-5 py-1.5 text-sm leading-normal text-white hover:border-black hover:bg-black dark:border-[#eeeeec] dark:bg-[#eeeeec] dark:text-[#1C1C1A] dark:hover:border-white dark:hover:bg-white">
                                 <i class="fa fa-edit"></i>
                                 </Link>
-                                <Button @click="handleDelete(subject.id)" :disabled="loading" type="button">
-                                    <span v-if="loading && subject.id === deleteingId">
+                                <Button @click="handleDelete(topic.id)" :disabled="loading" type="button">
+                                    <span v-if="loading && topic.id === deleteingId">
                                         <i class="fa fa-spinner fa-spin"></i>
                                     </span>
                                     <span v-else>

@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('subjects', function (Blueprint $table) {
+        Schema::create('topics', function (Blueprint $table) {
             $table->id();
             $table->foreignId('office_id')->nullable()->references('id')
                     ->on('offices')->onDelete('restrict')
@@ -33,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('subjects');
+        Schema::dropIfExists('topics');
     }
 };

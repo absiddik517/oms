@@ -14,6 +14,34 @@
 namespace App\Models{
 /**
  * @property int $id
+ * @property string $file_path
+ * @property string|null $file_name
+ * @property string|null $file_type
+ * @property int|null $file_size
+ * @property string $disk
+ * @property int|null $uploaded_by
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Letter|null $letter
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Attachment newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Attachment newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Attachment query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Attachment whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Attachment whereDisk($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Attachment whereFileName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Attachment whereFilePath($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Attachment whereFileSize($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Attachment whereFileType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Attachment whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Attachment whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Attachment whereUploadedBy($value)
+ */
+	class Attachment extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * @property int $id
  * @property int $office_id
  * @property string $name
  * @property string|null $description
@@ -40,19 +68,51 @@ namespace App\Models{
 namespace App\Models{
 /**
  * @property int $id
- * @property string $name
- * @property int $code
+ * @property int|null $office_id
+ * @property int|null $topic_id
+ * @property int|null $folder_id
+ * @property string|null $letter_number
+ * @property string|null $subject
+ * @property string|null $body
+ * @property string|null $letter_date
+ * @property string $status
+ * @property int|null $created_by
+ * @property int|null $updated_by
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Attachment> $attachments
+ * @property-read int|null $attachments_count
+ * @property-read \App\Models\Folder|null $folder
+ * @property-read \App\Models\Office|null $office
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Recipient> $recipients
+ * @property-read int|null $recipients_count
+ * @property-read \App\Models\Topic|null $topic
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Letter newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Letter newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Letter query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Letter whereBody($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Letter whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Letter whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Letter whereFolderId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Letter whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Letter whereLetterDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Letter whereLetterNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Letter whereOfficeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Letter whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Letter whereSubject($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Letter whereTopicId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Letter whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Letter whereUpdatedBy($value)
+ */
+	class Letter extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * @method static \Database\Factories\LetterTypeFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|LetterType newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|LetterType newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|LetterType query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|LetterType whereCode($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|LetterType whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|LetterType whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|LetterType whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|LetterType whereUpdatedAt($value)
  */
 	class LetterType extends \Eloquent {}
 }
@@ -123,19 +183,19 @@ namespace App\Models{
  * @property int|null $updated_by
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Subject newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Subject newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Subject query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Subject whereCode($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Subject whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Subject whereCreatedBy($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Subject whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Subject whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Subject whereOfficeId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Subject whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Subject whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Topic newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Topic newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Topic query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Topic whereCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Topic whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Topic whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Topic whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Topic whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Topic whereOfficeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Topic whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Topic whereUpdatedBy($value)
  */
-	class Subject extends \Eloquent {}
+	class Topic extends \Eloquent {}
 }
 
 namespace App\Models{

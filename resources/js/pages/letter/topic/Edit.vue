@@ -1,13 +1,12 @@
 <script>
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
-import { ref } from 'vue';
 import LangInput from '@/components/ui/form/LangInput.vue';
 import Button from '@/components/ui/Button.vue';
 import Input from '@/components/ui/form/Input.vue';
 
 export default {
-    name: 'SubjectEdit',
+    name: 'TopicEdit',
     components: {
         AppLayout,
         Head,
@@ -17,7 +16,7 @@ export default {
         Input,
     },
     props: {
-        subject: {
+        topic: {
             type: Object,
             required: true,
         },
@@ -29,15 +28,15 @@ export default {
     data() {
         return {
             form: useForm({
-                "office_id": this.subject.office_id,
-                "name": this.subject.name,
-                "code": this.subject.code,
+                "office_id": this.topic.office_id,
+                "name": this.topic.name,
+                "code": this.topic.code,
 
             }),
             loading: false,
             breadcrumbs: [
-                { title: 'Subjects', href: route('subject.index') },
-                { title: 'Edit', href: route('subject.edit', this.subject.id) },
+                { title: 'Topics', href: route('topics.index') },
+                { title: 'Edit', href: route('topics.edit', this.topic.id) },
             ],
         };
     },
@@ -45,7 +44,7 @@ export default {
         submit() {
             this.loading = true;
             this.form.clearErrors();
-            this.form.put(route('subject.update', this.subject.id), {
+            this.form.put(route('topics.update', this.topic.id), {
                 preserveScroll: true,
                 onSuccess: () => {
                     this.loading = false;
@@ -67,13 +66,13 @@ export default {
             <h1 class="text-2xl font-bold mb-4">Edit Subject</h1>
             <form @submit.prevent="submit" class="space-y-4">
                 <div>
-                    <label for="subject_name">Subject Name</label>
-                    <Input v-model="form.name" id="subject_name" class="mt-2" type="text" placeholder="Subject Name" />
+                    <label for="topic_name">Topic Name</label>
+                    <Input v-model="form.name" id="topic_name" class="mt-2" type="text" placeholder="Topic Name" />
                     <div class="text-red-500 text-sm" v-if="form.errors.name">{{ form.errors.name }}</div>
                 </div>
                 <div>
-                    <label for="subject_code">Subject Code</label>
-                    <Input v-model="form.code" id="subject_code" class="mt-2" type="text" placeholder="Subject Code" />
+                    <label for="topic_code">Topic Code</label>
+                    <Input v-model="form.code" id="topic_code" class="mt-2" type="text" placeholder="Topic Code" />
                     <div class="text-red-500 text-sm" v-if="form.errors.code">{{ form.errors.code }}</div>
                 </div>
                 <div class="form-group text-right">
@@ -81,7 +80,7 @@ export default {
                         <span v-if="loading">Updating...</span>
                         <span v-else>Update</span>
                     </Button>
-                    <Link :href="route('subject.index')" class="ml-2 text-gray-600">Cancel</Link>
+                    <Link :href="route('topics.index')" class="ml-2 text-gray-600">Cancel</Link>
                 </div>
             </form>
         </div>

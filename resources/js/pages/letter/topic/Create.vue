@@ -1,13 +1,12 @@
 <script>
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
-import { ref } from 'vue';
 import LangInput from '@/components/ui/form/LangInput.vue';
 import Button from '@/components/ui/Button.vue';
 import Input from '@/components/ui/form/Input.vue';
 
 export default {
-    name: 'SubjectCreate',
+    name: 'TopicCreate',
     components: {
         AppLayout,
         Head,
@@ -31,8 +30,8 @@ export default {
             }),
             loading: false,
             breadcrumbs: [
-                { title: 'Subjects', href: route('subject.index') },
-                { title: 'Create', href: route('subject.create') },
+                { title: 'Topics', href: route('topics.index') },
+                { title: 'Create', href: route('topics.create') },
             ],
         };
     },
@@ -40,7 +39,7 @@ export default {
         submit() {
             this.loading = true;
             this.form.clearErrors();
-            this.form.post(route('subject.store'), {
+            this.form.post(route('topics.store'), {
                 preserveScroll: true,
                 onSuccess: () => {
                     this.loading = false;
@@ -56,10 +55,10 @@ export default {
 
 <template>
 
-    <Head title="Add Subject" />
+    <Head title="Add Topic" />
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="container mx-auto p-4">
-            <h1 class="text-2xl font-bold mb-4">Add Subject</h1>
+            <h1 class="text-2xl font-bold mb-4">Add Topic</h1>
             <form @submit.prevent="submit" class="space-y-4">
                 <div>
                     <label for="office_id">Office</label>
@@ -88,7 +87,7 @@ export default {
                         <span v-if="loading">Creating</span>
                         <span v-else>Create</span>
                     </Button>
-                    <Link :href="route('subject.index')" class="ml-2 text-gray-600">Cancel</Link>
+                    <Link :href="route('topics.index')" class="ml-2 text-gray-600">Cancel</Link>
                 </div>
             </form>
         </div>

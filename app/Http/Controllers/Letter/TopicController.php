@@ -1,25 +1,24 @@
 <?php
 
 namespace App\Http\Controllers\Letter;
-use App\Models\LetterType;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Subject\StoreRequest;
 use App\Http\Requests\Subject\UpdateRequest;
 use App\Models\Office;
-use App\Models\Subject;
+use App\Models\Topic;
 use Illuminate\Http\Request;
 
-class SubjectController extends Controller
+class TopicController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $subjects = Subject::all();
-        return inertia('letter/subject/Index', [
-            'subjects' => $subjects,
+        $topics = Topic::all();
+        return inertia('letter/topic/Index', [
+            'topics' => $topics,
         ]);
     }
 
@@ -29,7 +28,7 @@ class SubjectController extends Controller
     public function create()
     {
         $offices = Office::all();
-        return inertia('letter/subject/Create',[
+        return inertia('letter/topic/Create',[
             "offices" => $offices
         ]);
     }
@@ -40,17 +39,17 @@ class SubjectController extends Controller
     public function store(StoreRequest $request)
     {
 
-        Subject::create([
+        Topic::create([
             'office_id' => $request->office_id,
             'name' => $request->name,
             'code' => $request->code,
         ]);
         $toast = [
             'type' => 'success',
-            'message' => 'Subject created successfully.',
+            'message' => 'Topic created successfully.',
         ];
 
-        return redirect()->route('subject.index')->with('toast', $toast);
+        return redirect()->route('topic.index')->with('toast', $toast);
     }
 
     /**
@@ -66,9 +65,9 @@ class SubjectController extends Controller
      */
     public function edit(string $id)
     {
-        $subject = Subject::findOrFail($id);
-        return inertia('letter/subject/Edit', [
-            'subject' => $subject,
+        $topic = Topic::findOrFail($id);
+        return inertia('letter/topic/Edit', [
+            'topic' => $topic,
             "offices" => Office::all(),
         ]);
     }
@@ -78,8 +77,8 @@ class SubjectController extends Controller
      */
     public function update(UpdateRequest $request, string $id)
     {
-        $subject = Subject::findOrFail($id);
-        $subject->update([
+        $topic = Topic::findOrFail($id);
+        $topic->update([
             'office_id' => $request->office_id,
             'name' => $request->name,
             'code' => $request->code,
@@ -87,10 +86,10 @@ class SubjectController extends Controller
 
         $toast = [
             'type' => 'success',
-            'message' => 'Subject updated successfully.',
+            'message' => 'Topic updated successfully.',
         ];
 
-        return redirect()->route('subject.index')->with('toast', $toast);
+        return redirect()->route('topic.index')->with('toast', $toast);
     }
 
     /**
@@ -98,14 +97,14 @@ class SubjectController extends Controller
      */
     public function destroy(string $id)
     {
-        $subject = Subject::findOrFail($id);
-        $subject->delete();
+        $topic = Topic::findOrFail($id);
+        $topic->delete();
 
         $toast = [
             'type' => 'success',
-            'message' => 'Subject deleted successfully.',
+            'message' => 'Topic deleted successfully.',
         ];
 
-        return redirect()->route('subject.index')->with('toast', $toast);
+        return redirect()->route('topic.index')->with('toast', $toast);
     }
 }

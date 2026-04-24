@@ -20,8 +20,8 @@ const mainNavItems: NavItem[] = [
         icon: House,
     },
     {
-        title: 'Subject',
-        href: route('subject.index'),
+        title: 'Topics',
+        href: route('topics.index'),
         icon: ListChecks,
     },
     {
