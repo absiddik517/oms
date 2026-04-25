@@ -17,6 +17,7 @@ export default {
 
     props: {
         offices: Array,
+        officers: Array,
         topics: Array,
         folders: Array,
         recipients: Array,
@@ -29,6 +30,7 @@ export default {
 
             form: useForm({
                 office_id: this.letter.office_id || '',
+                officer_id: this.letter.officer_id || '',
                 topic_id: this.letter.topic_id || '',
                 folder_id: this.letter.folder_id || '',
                 letter_number: this.letter.letter_number || '',
@@ -115,6 +117,17 @@ export default {
                         </option>
                     </select>
                     <div class="text-red-500 text-sm">{{ form.errors.office_id }}</div>
+                </div>
+                <!--Officer-->
+                <div>
+                    <label>Officer</label>
+                    <select v-model="form.officer_id" class="input">
+                        <option value="">Select Officer</option>
+                        <option v-for="officer in officers" :key="officer.id" :value="officer.id">
+                            {{ officer.name }}
+                        </option>
+                    </select>
+                    <div class="text-red-500 text-sm">{{ form.errors.officer_id }}</div>
                 </div>
 
                 <!-- TOPIC -->

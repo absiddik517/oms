@@ -9,6 +9,7 @@ class Letter extends Model
 {
     protected $fillable = [
         'office_id',
+        'officer_id',
         'topic_id',
         'folder_id',
         'letter_number',
@@ -30,7 +31,11 @@ class Letter extends Model
     public function topic()
     {
         return $this->belongsTo(Topic::class);
-    }      
+    }  
+    public function officer()
+    {
+        return $this->belongsTo(Officer::class);
+    }    
 
     public function folder()
     {

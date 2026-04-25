@@ -19,6 +19,9 @@ return new class extends Migration
             $table->string('address')->nullable();
             $table->string('email')->nullable();
             $table->string('phone')->nullable();
+            $table->foreignId('office_id')->nullable()->references('id')
+                    ->on('offices')->onDelete('restrict')
+                    ->onUpdate('cascade');
             $table->foreignId('created_by')->nullable()->references('id')
                     ->on('users')->onDelete('restrict')
                     ->onUpdate('cascade');

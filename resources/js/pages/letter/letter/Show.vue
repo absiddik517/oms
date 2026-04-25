@@ -1,6 +1,7 @@
 <script>
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Head, Link } from '@inertiajs/vue3';
+import Badge from '@/components/ui/Badge.vue';
 
 export default {
     name: 'LetterShow',
@@ -9,6 +10,7 @@ export default {
         AppLayout,
         Head,
         Link,
+        Badge,
     },
 
     props: {
@@ -84,13 +86,18 @@ export default {
                     <p class="">{{ letter.to[0].address }}</p>
                 </div>
                 <div class="ml-auto p-4 text-center">
-                    <p class="font-bold ml-auto">{{ JSON.parse(letter.office.office_name).bn }}</p>
+                    <template v-if="letter.officer_id">
+                        <p class="ml-auto">({{ letter.officer?.name }})</p>
+                        <p class="ml-auto">{{ letter.officer?.designation }}</p>
+                    </template>
+                    <template v-else>
+                        <Badge type="danger">No officer selected.</Badge>
+                    </template>
+                    <p class="ml-auto">{{ JSON.parse(letter.office.office_name).bn }}</p>
                     <p class="ml-auto">{{ JSON.parse(letter.office.upazila).bn }}, {{
                         JSON.parse(letter.office.district).bn }}</p>
                 </div>
             </div>
-
-
             <!-- CC -->
             <div class="mb-4" v-if="letter.cc.length">
                 <b>অনুলিপি সদয় অবগতি ও কার্যার্থে:</b>

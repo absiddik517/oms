@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Letter;
 
 use App\Http\Controllers\Controller;
+use App\Models\Office;
+use App\Models\Officer;
 use App\Models\Recipient;
 use Illuminate\Http\Request;
 
@@ -24,7 +26,9 @@ class RecipientController extends Controller
      */
     public function create()
     {
-        return inertia('letter/recipient/Create');
+        return inertia('letter/recipient/Create',[
+            'offices'   => Office::all()
+        ]);
     }
 
     /**
@@ -33,6 +37,7 @@ class RecipientController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
+            'officer_id' => ['nullable'],
             'name' => ['nullable', 'string', 'max:255'],
             'designation' => ['nullable', 'string', 'max:255'],
             'organization' => ['nullable', 'string', 'max:255'],
@@ -65,6 +70,7 @@ class RecipientController extends Controller
         $recipient = Recipient::findOrFail($id);
         return inertia('letter/recipient/Edit', [
             'recipient' => $recipient,
+            'offices'   => Office::all(),
         ]);
     }
 
@@ -75,6 +81,7 @@ class RecipientController extends Controller
     {
         $recipient = Recipient::findOrFail($id);
         $data = $request->validate([
+            'office_id' => ['nullable'],
             'name' => ['nullable', 'string', 'max:255'],
             'designation' => ['nullable', 'string', 'max:255'],
             'organization' => ['nullable', 'string', 'max:255'],

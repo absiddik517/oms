@@ -10,6 +10,7 @@ use App\Models\Recipient;
 use App\Models\Attachment;
 use App\Models\Folder;
 use App\Models\Office;
+use App\Models\Officer;
 use App\Models\Topic;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -36,7 +37,7 @@ class LetterController extends Controller
         if(auth()->user()->role == 'user' && auth()->user()->office_id !== $letter->office_id){
             abort(403, "You are not authorized to see the letter.");
         }
-        $letter->load(['office', 'topic', 'folder', 'to', 'cc', 'recipients', 'attachments']);
+        $letter->load(['office', 'officer', 'topic', 'folder', 'to', 'cc', 'recipients', 'attachments']);
         //dd($letter);
         return Inertia::render('letter/letter/Show', [
             'letter' => $letter,
@@ -49,8 +50,9 @@ class LetterController extends Controller
     public function create()
     {
         return Inertia::render('letter/letter/Create', [
-            'recipients' => Recipient::all(),
+            'recipients' => Recipient::currentoffice()->get(),
             'offices' => Office::all(),
+            'officers'  => Officer::all(),
             'topics' => Topic::all(),
             'folders' => Folder::all(),
         ]);
@@ -63,6 +65,7 @@ class LetterController extends Controller
     {
         $validated = $request->validate([
             'office_id' => 'nullable|exists:offices,id',
+            'officer_id' => 'required|exists:officers,id',
             'topic_id' => 'nullable|exists:topics,id',
             'folder_id' => 'nullable|exists:folders,id',
             'letter_number' => 'nullable|string',
@@ -86,6 +89,7 @@ class LetterController extends Controller
             // 1. Create Letter
             $letter = Letter::create([
                 'office_id' => $validated['office_id'] ?? null,
+                'officer_id' => $validated['officer_id'] ?? null,
                 'topic_id' => $validated['topic_id'] ?? null,
                 'folder_id' => $validated['folder_id'] ?? null,
                 'letter_number' => $validated['letter_number'] ?? null,
@@ -152,8 +156,9 @@ class LetterController extends Controller
         );
         return Inertia::render('letter/letter/Edit', [
             'letter' => $letter,
-            'recipients' => Recipient::all(),
+            'recipients' => Recipient::where('office_id', $letter->office_id)->orWhereNull('office_id')->get(),
             'offices' => Office::all(),
+            'officers' => Officer::where('office_id', $letter->office_id)->get(),
             'topics' => Topic::all(),
             'folders' => Folder::all(),
         ]);
@@ -170,8 +175,10 @@ class LetterController extends Controller
             "You are not auhorized to edit the letter."
         );
 
+        
         $validated = $request->validate([
             'office_id' => 'nullable|exists:offices,id',
+            'officer_id' => 'required|exists:officers,id',
             'topic_id' => 'nullable|exists:topics,id',
             'folder_id' => 'nullable|exists:folders,id',
             'letter_number' => 'nullable|string',
@@ -193,6 +200,7 @@ class LetterController extends Controller
             // 1. Update Letter
             $letter->update([
                 'office_id' => $validated['office_id'] ?? null,
+                'officer_id' => $validated['officer_id'] ?? null,
                 'topic_id' => $validated['topic_id'] ?? null,
                 'folder_id' => $validated['folder_id'] ?? null,
                 'letter_number' => $validated['letter_number'] ?? null,
