@@ -39,6 +39,8 @@ class Officer extends Model
      * @return array
      */
     public function scopeCurrentoffice($query){
-        $query->where('office_id', auth()->user()->office_id);
+        if(auth()->user()->role === 'user'){
+            $query->where('office_id', auth()->user()->office_id);
+        }
     }
 }

@@ -91,13 +91,41 @@ export default {
                 </div>
                 <div>
                     <label for="user_role">Role</label>
-                    <select v-model="form.role" id="user_role"
-                        class="mt-2 flex h-9 w-full rounded-xl border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm">
-                        <option value="user">User</option>
-                        <option value="admin">Admin</option>
-                    </select>
+                    <div class="mt-4 flex flex-wrap items-center gap-8">
+                        <!-- Default -->
+                        <label class="flex cursor-pointer items-center text-sm font-medium text-gray-700">
+                            <div class="relative mr-3">
+                                <input type="radio" value="admin" v-model="form.role" class="sr-only">
+
+                                <div :class="form.role === 'admin'
+                                    ? 'border-blue-500 bg-blue-500'
+                                    : 'border-gray-300 bg-transparent'"
+                                    class="flex h-5 w-5 items-center justify-center rounded-full border">
+                                    <span v-if="form.role === 'admin'" class="h-2 w-2 rounded-full bg-white"></span>
+                                </div>
+                            </div>
+                            Admin
+                        </label>
+                        <!-- Additional Charge -->
+                        <label class="flex cursor-pointer items-center text-sm font-medium text-gray-700">
+                            <div class="relative mr-3">
+                                <input type="radio" value="user" v-model="form.role" class="sr-only">
+
+                                <div :class="form.role === 'user'
+                                    ? 'border-blue-500 bg-blue-500'
+                                    : 'border-gray-300 bg-transparent'"
+                                    class="flex h-5 w-5 items-center justify-center rounded-full border">
+                                    <span v-if="form.role === 'user'" class="h-2 w-2 rounded-full bg-white"></span>
+                                </div>
+                            </div>
+                            User
+                        </label>
+                    </div>
                     <div class="text-red-500 text-sm" v-if="form.errors.role">{{ form.errors.role }}</div>
                 </div>
+
+
+
                 <div class="form-group text-right">
                     <Button type="submit" :loading="loading">
                         <span v-if="loading">Updating</span>

@@ -24,6 +24,7 @@ class LetterController extends Controller
     {
         $letters = Letter::with(['office', 'topic'])
             ->latest()
+            ->currentoffice()
             ->get();
         return Inertia::render('letter/letter/Index', [
             'letters' => $letters,
@@ -32,6 +33,9 @@ class LetterController extends Controller
 
     public function show(Letter $letter)
     {
+        if(auth()->user()->role == 'user' && auth()->user()->office_id !== $letter->office_id){
+            abort(403, "You are not authorized to see the letter.");
+        }
         $letter->load(['office', 'topic', 'folder', 'to', 'cc', 'recipients', 'attachments']);
         //dd($letter);
         return Inertia::render('letter/letter/Show', [
@@ -140,7 +144,12 @@ class LetterController extends Controller
      */
     public function edit(Letter $letter)
     {
-        $letter->load(['recipients', 'attachments']); 
+        $letter->load(['recipients', 'attachments']);
+        abort_if(
+            auth()->user()->role == 'user' && auth()->user()->office_id !== $letter->office_id,
+            403,
+            "You are not auhorized to edit the letter."
+        );
         return Inertia::render('letter/letter/Edit', [
             'letter' => $letter,
             'recipients' => Recipient::all(),
@@ -155,7 +164,12 @@ class LetterController extends Controller
      */
     public function update(Request $request, Letter $letter)
     {
-        dd($request->all());
+        abort_if(
+            auth()->user()->role == 'user' && auth()->user()->office_id !== $letter->office_id,
+            403,
+            "You are not auhorized to edit the letter."
+        );
+
         $validated = $request->validate([
             'office_id' => 'nullable|exists:offices,id',
             'topic_id' => 'nullable|exists:topics,id',
@@ -240,6 +254,11 @@ class LetterController extends Controller
      */
     public function destroy(Letter $letter)
     {
+        abort_if(
+            auth()->user()->role == 'user' && auth()->user()->office_id !== $letter->office_id,
+            403,
+            "You are not auhorized to delete the letter."
+        );
         $letter->delete();
 
         $toast = [

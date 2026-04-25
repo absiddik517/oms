@@ -14,7 +14,11 @@ export default {
     props: {
         letter: Object,
     },
-
+    methods: {
+        toBN(num) {
+            return num.toString().replace(/\d/g, d => '০১২৩৪৫৬৭৮৯'[d]);
+        }
+    },
     computed: {
         toRecipients() {
             return this.letter.recipients?.filter(r => r.pivot.type === 'to') || [];
@@ -42,13 +46,21 @@ export default {
                 <h4 class="text-center">{{ JSON.parse(letter.office.upazila).bn }}, {{
                     JSON.parse(letter.office.district).bn }}</h4>
 
-                <div class="flex">
+                <div class="flex items-center">
                     <div class="text-gray-600 mt-1">
-                        <p>স্মারক নং: ৩৮.০৩.৬১২৪.০০০.০০০.২৬-{{ letter.letter_number }}</p>
+                        <p>স্মারক নং: ৩৮.০২.{{ toBN(letter.office.geo_code) }}.০০০.{{ toBN(letter.topic.code) }}.{{
+                            toBN(letter.folder.code) }}.{{
+                                toBN(new Date(letter.letter_date).getFullYear().toString().slice(-2)) }}-{{
+                                toBN(letter.letter_number) }}
+                        </p>
                     </div>
 
-                    <div class="ml-auto text-gray-600 mt-1">
-                        <p>তারিখ: {{ letter.letter_date }}</p>
+                    <div class="ml-auto text-gray-600 mt-1 flex items-center gap-0.5">
+                        <div>তারিখ:</div>
+                        <div class="flex-1 text-center">
+                            <div class="border-b border-black">{{ letter.date.lunar }} খ্রিস্টাব্দ</div>
+                            <div>{{ letter.date.gregorian }} খ্রিস্টাব্দ</div>
+                        </div>
                     </div>
                 </div>
             </div>

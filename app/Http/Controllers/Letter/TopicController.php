@@ -49,7 +49,7 @@ class TopicController extends Controller
             'message' => 'Topic created successfully.',
         ];
 
-        return redirect()->route('topic.index')->with('toast', $toast);
+        return redirect()->route('topics.index')->with('toast', $toast);
     }
 
     /**
@@ -66,6 +66,9 @@ class TopicController extends Controller
     public function edit(string $id)
     {
         $topic = Topic::findOrFail($id);
+        if(auth()->user()->role == 'user' && auth()->user()->office_id !== $topic->office_id){
+            abort(403, "You are not authorized to edit the topic.");
+        }
         return inertia('letter/topic/Edit', [
             'topic' => $topic,
             "offices" => Office::all(),
@@ -78,6 +81,9 @@ class TopicController extends Controller
     public function update(UpdateRequest $request, string $id)
     {
         $topic = Topic::findOrFail($id);
+        if(auth()->user()->role == 'user' && auth()->user()->office_id !== $topic->office_id){
+            abort(403, "You are not authorized to edit the topic.");
+        }
         $topic->update([
             'office_id' => $request->office_id,
             'name' => $request->name,
@@ -89,7 +95,7 @@ class TopicController extends Controller
             'message' => 'Topic updated successfully.',
         ];
 
-        return redirect()->route('topic.index')->with('toast', $toast);
+        return redirect()->route('topics.index')->with('toast', $toast);
     }
 
     /**
@@ -98,6 +104,9 @@ class TopicController extends Controller
     public function destroy(string $id)
     {
         $topic = Topic::findOrFail($id);
+        if(auth()->user()->role == 'user' && auth()->user()->office_id !== $topic->office_id){
+            abort(403, "You are not authorized to delete the topic.");
+        }
         $topic->delete();
 
         $toast = [
@@ -105,6 +114,6 @@ class TopicController extends Controller
             'message' => 'Topic deleted successfully.',
         ];
 
-        return redirect()->route('topic.index')->with('toast', $toast);
+        return redirect()->route('topics.index')->with('toast', $toast);
     }
 }

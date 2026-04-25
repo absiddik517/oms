@@ -60,7 +60,8 @@ export default {
                     <thead class="text-sm text-body bg-neutral-secondary-soft border-b rounded-base border-default">
                         <tr>
                             <th class="px-6 py-3 font-medium" scope="col">ID</th>
-                            <th class="px-6 py-3 font-medium" scope="col">Office</th>
+                            <th class="px-6 py-3 font-medium" scope="col" v-if="$page.props.auth.user.role === 'admin'">
+                                Office</th>
                             <th class="px-6 py-3 font-medium" scope="col">Name</th>
                             <th class="px-6 py-3 font-medium" scope="col">Code</th>
                             <th class="px-6 py-3 font-medium text-right" scope="col">Actions</th>
@@ -69,7 +70,7 @@ export default {
                     <tbody>
                         <tr v-for="topic in topics" :key="topic.id" class="bg-neutral-primary border-b border-default">
                             <td class="px-6 py-4">{{ topic.id }}</td>
-                            <td class="px-6 py-4">
+                            <td v-if="$page.props.auth.user.role === 'admin'" class="px-6 py-4">
                                 {{ topic.office_id }}
                             </td>
                             <td>
@@ -84,7 +85,7 @@ export default {
                                     class="mr-1 inline-block rounded-sm border border-black bg-[#1b1b18] px-5 py-1.5 text-sm leading-normal text-white hover:border-black hover:bg-black dark:border-[#eeeeec] dark:bg-[#eeeeec] dark:text-[#1C1C1A] dark:hover:border-white dark:hover:bg-white">
                                 <i class="fa fa-edit"></i>
                                 </Link>
-                                <Button @click="handleDelete(topic.id)" :disabled="loading" type="button">
+                                <Button @click="handleDelete(topic.id)" type="button">
                                     <span v-if="loading && topic.id === deleteingId">
                                         <i class="fa fa-spinner fa-spin"></i>
                                     </span>

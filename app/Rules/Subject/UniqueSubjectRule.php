@@ -2,7 +2,7 @@
 
 namespace App\Rules\Subject;
 
-use App\Models\Subject;
+use App\Models\Topic;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Translation\PotentiallyTranslatedString;
@@ -25,7 +25,7 @@ class UniqueSubjectRule implements ValidationRule
 
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        $query = Subject::where('name', $value)
+        $query = Topic::where('name', $value)
                         ->where('office_id', $this->officeId);
         if ($this->skipId) {
             $query->where('id', '!=', $this->skipId);

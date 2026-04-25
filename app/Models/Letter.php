@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use BanglaDateTime\BanglaDateTime;
 
 class Letter extends Model
 {
@@ -18,6 +19,8 @@ class Letter extends Model
         'created_by',
         'updated_by',
     ];
+
+    protected $appends = ['date'];
 
     public function office()
     {
@@ -67,5 +70,32 @@ class Letter extends Model
             'attachable',
             'attachables'
         );
+    }
+
+    public function scopeCurrentoffice($query){
+        if(auth()->user()->role === 'user'){
+            $query->where('office_id', auth()->user()->office_id);
+        }
+    }
+
+    
+
+    public function getDateAttribute()
+    {
+        if (!$this->letter_date) {
+            return [
+                'gregorian' => null,
+                'lunar'     => null
+            ];
+        }
+        $output = [];
+        $gregorian = BanglaDateTime::create($this->letter_date)
+            ->format('jS F Y');
+        $output['gregorian'] = $gregorian;
+
+        $lunar = BanglaDateTime::create($this->letter_date)->toBangla('jS F Y');
+        $output['lunar'] = $lunar;
+        return $output;
+
     }
 }

@@ -72,6 +72,11 @@ class OfficerController extends Controller
     public function edit(string $id)
     {
         $officer = Officer::findOrFail($id);
+        abort_if(
+            auth()->user()->role == 'user' && auth()->user()->office_id !== $officer->office_id,
+            403,
+            "You are not auhorized to edit the officer."
+        );
         $offices = Office::all();
         return inertia('officer/Edit', [
             'officer' => $officer,
@@ -85,6 +90,11 @@ class OfficerController extends Controller
     public function update(Request $request, string $id)
     {
         $officer = Officer::findOrFail($id);
+        abort_if(
+            auth()->user()->role == 'user' && auth()->user()->office_id !== $officer->office_id,
+            403,
+            "You are not auhorized to edit the officer."
+        );
         $request->validate([
             'name' => 'required|string|max:255',
             'designation' => 'required|string|max:255',
@@ -113,6 +123,11 @@ class OfficerController extends Controller
     public function destroy(string $id)
     {
         $officer = Officer::findOrFail($id);
+        abort_if(
+            auth()->user()->role == 'user' && auth()->user()->office_id !== $officer->office_id,
+            403,
+            "You are not auhorized to delete the officer."
+        );
         $officer->delete();
         $toast = [
             'message' => 'Officer deleted successfully.',

@@ -24,7 +24,7 @@ export default {
     data() {
         return {
             form: useForm({
-                'office_id': '',
+                'office_id': this.$page.props.auth.user.office_id,
                 'name': null,
                 'code': null,
             }),
@@ -60,7 +60,7 @@ export default {
         <div class="container mx-auto p-4">
             <h1 class="text-2xl font-bold mb-4">Add Topic</h1>
             <form @submit.prevent="submit" class="space-y-4">
-                <div>
+                <div v-if="$page.props.auth.user.role === 'admin'">
                     <label for="office_id">Office</label>
                     <select v-model="form.office_id" id="office_id"
                         class="flex h-9 w-full rounded-xl border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm">

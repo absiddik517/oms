@@ -91,7 +91,7 @@ class UserController extends Controller
             'type' => 'success',
             'message' => 'User updated successfully.',
         ];
-        return redirect()->route('users.index')->with('toast', $toast);
+        return redirect()->back()->with('toast', $toast);
     }
 
     /**

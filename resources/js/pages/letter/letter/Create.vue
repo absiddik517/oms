@@ -92,7 +92,8 @@ export default {
                     <select v-model="form.office_id" class="input">
                         <option value="">Select Office</option>
                         <option v-for="office in offices" :key="office.id" :value="office.id">
-                            {{ JSON.parse(office.office_name).bn }}
+                            {{ JSON.parse(office.office_name).bn }}, {{ JSON.parse(office.upazila).bn }}, {{
+                                JSON.parse(office.district).bn }}
                         </option>
                     </select>
                     <div class="text-red-500 text-sm">{{ form.errors.office_id }}</div>

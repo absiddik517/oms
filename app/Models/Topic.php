@@ -22,8 +22,10 @@ class Topic extends Model
     ];
 
     public function scopeCurrentoffice($query){
-        $query->where('office_id', auth()->user()->office_id)
-                ->orWhereNull('office_id');
+        if(auth()->user()->role === 'user'){
+            $query->where('office_id', auth()->user()->office_id)
+                    ->orWhereNull('office_id');
+        }
     }
 
     

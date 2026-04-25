@@ -110,7 +110,8 @@ export default {
                     <select v-model="form.office_id" class="input">
                         <option value="">Select Office</option>
                         <option v-for="office in offices" :key="office.id" :value="office.id">
-                            {{ getOfficeName(office) }}
+                            {{ getOfficeName(office) }}, {{ JSON.parse(office.upazila).bn }}, {{
+                                JSON.parse(office.district).bn }}
                         </option>
                     </select>
                     <div class="text-red-500 text-sm">{{ form.errors.office_id }}</div>
@@ -220,8 +221,8 @@ export default {
 
                 <!-- BUTTON -->
                 <div class="text-right">
-                    <Button type="submit" :loading="loading">
-                        <span v-if="loading">Saving...</span>
+                    <Button type="submit" :loading="form.processing">
+                        <span v-if="form.processing">Saving...</span>
                         <span v-else>Update Letter</span>
                     </Button>
 

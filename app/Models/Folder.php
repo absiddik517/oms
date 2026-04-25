@@ -21,4 +21,10 @@ class Folder extends Model
     {
         return $this->belongsTo(Office::class);
     }
+
+    public function scopeCurrentoffice($query){
+        if(auth()->user()->role === 'user'){
+            $query->where('office_id', auth()->user()->office_id);
+        }
+    }
 }

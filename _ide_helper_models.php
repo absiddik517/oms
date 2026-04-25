@@ -50,6 +50,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Office $office
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Folder currentoffice()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Folder newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Folder newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Folder query()
@@ -75,6 +76,7 @@ namespace App\Models{
  * @property string|null $subject
  * @property string|null $body
  * @property string|null $letter_date
+ * @property int|null $officer_id
  * @property string $status
  * @property int|null $created_by
  * @property int|null $updated_by
@@ -87,6 +89,7 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Recipient> $recipients
  * @property-read int|null $recipients_count
  * @property-read \App\Models\Topic|null $topic
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Letter currentoffice()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Letter newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Letter newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Letter query()
@@ -98,6 +101,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Letter whereLetterDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Letter whereLetterNumber($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Letter whereOfficeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Letter whereOfficerId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Letter whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Letter whereSubject($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Letter whereTopicId($value)
@@ -105,16 +109,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Letter whereUpdatedBy($value)
  */
 	class Letter extends \Eloquent {}
-}
-
-namespace App\Models{
-/**
- * @method static \Database\Factories\LetterTypeFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|LetterType newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|LetterType newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|LetterType query()
- */
-	class LetterType extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -149,26 +143,36 @@ namespace App\Models{
  * @property string|null $designation
  * @property string $category
  * @property string|null $address
+ * @property string|null $email
+ * @property string|null $phone
  * @property string $status
  * @property string|null $joining_date
  * @property string|null $leaving_date
  * @property int $office_id
+ * @property int|null $created_by
+ * @property int|null $updated_by
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Office $office
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Officer currentoffice()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Officer newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Officer newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Officer query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Officer whereAddress($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Officer whereCategory($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Officer whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Officer whereCreatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Officer whereDesignation($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Officer whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Officer whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Officer whereJoiningDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Officer whereLeavingDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Officer whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Officer whereOfficeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Officer wherePhone($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Officer whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Officer whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Officer whereUpdatedBy($value)
  */
 	class Officer extends \Eloquent {}
 }
@@ -214,6 +218,7 @@ namespace App\Models{
  * @property int|null $updated_by
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Topic currentoffice()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Topic newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Topic newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Topic query()
@@ -236,11 +241,14 @@ namespace App\Models{
  * @property string $email
  * @property \Illuminate\Support\Carbon|null $email_verified_at
  * @property string $password
+ * @property int|null $office_id
+ * @property string $role
  * @property string|null $remember_token
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
+ * @property-read \App\Models\Office|null $office
  * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newQuery()
@@ -250,8 +258,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereEmailVerifiedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereOfficeId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereRememberToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereRole($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUpdatedAt($value)
  */
 	class User extends \Eloquent {}
