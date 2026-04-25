@@ -4,13 +4,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 use App\Models\Subject;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Office extends Model
 {
-
-
-
-
+    use HasFactory;
     /**
      * The attributes that are mass assignable.
      *
