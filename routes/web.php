@@ -32,7 +32,11 @@ Route::group(['prefix' => 'letters', 'as' => 'letters.', 'middleware' => ['auth'
 });
 
 Route::resource('officers', OfficerController::class)->middleware(['auth', 'verified']); 
-Route::resource('users', App\Http\Controllers\UserController::class)->middleware(['auth', 'verified']);   
+Route::resource('users', App\Http\Controllers\UserController::class)->middleware(['auth', 'verified']);
+
+Route::get('test', function(){
+    return Inertia('Test');
+});
 
 
 
