@@ -20,12 +20,12 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'A.B. Siddik',
             'email' => 'absiddik517@gmail.com',
+            'role' => 'admin',
             'password' => bcrypt('12345678'),
         ]);
 
-        User::factory(10)->create();
+        User::factory(9)->create();
         Office::factory(10)->create();
-        LetterType::factory(10)->create();
 
     }
 }
