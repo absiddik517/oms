@@ -25,7 +25,6 @@ class LetterController extends Controller
     {
         $letters = Letter::with(['office', 'topic'])
             ->latest()
-            ->currentoffice()
             ->get();
         return Inertia::render('letter/letter/Index', [
             'letters' => $letters,
@@ -50,7 +49,7 @@ class LetterController extends Controller
     public function create()
     {
         return Inertia::render('letter/letter/Create', [
-            'recipients' => Recipient::currentoffice()->get(),
+            'recipients' => Recipient::all(),
             'offices' => Office::all(),
             'officers'  => Officer::all(),
             'topics' => Topic::all(),

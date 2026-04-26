@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use BanglaDateTime\BanglaDateTime;
+use Illuminate\Database\Eloquent\Builder;
 
 class Letter extends Model
 {
@@ -20,6 +21,7 @@ class Letter extends Model
         'created_by',
         'updated_by',
     ];
+
 
     protected $appends = ['date'];
 
@@ -75,6 +77,16 @@ class Letter extends Model
             'attachable',
             'attachables'
         );
+    }
+
+    protected static function booted()
+    {
+        static::addGlobalScope('current_office', function (Builder $builder) {
+            if(auth()->user()->role === 'user'){
+                $builder->where('office_id', auth()->user()->office_id)
+                        ->orWhereNull('office_id');
+            }
+        });
     }
 
     public function scopeCurrentoffice($query){

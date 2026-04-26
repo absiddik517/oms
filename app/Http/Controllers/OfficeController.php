@@ -8,6 +8,10 @@ use Illuminate\Http\Request;
 
 class OfficeController extends Controller
 {
+    public function __construct()
+    {
+        abort_if(auth()->user()->role !== 'admin', 403, "Access Denied!");
+    }
     /**
      * Display a listing of the resource.
      */

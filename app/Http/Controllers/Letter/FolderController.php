@@ -14,7 +14,7 @@ class FolderController extends Controller
      */
     public function index()
     {
-        $folders = Folder::currentoffice()->get();
+        $folders = Folder::all();
         return inertia('letter/folder/Index', [
             'folders' => $folders,
         ]);

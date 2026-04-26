@@ -5,6 +5,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Helpers\HasDefault;
+use Illuminate\Database\Eloquent\Builder;
 
 class Topic extends Model
 {
@@ -20,6 +21,16 @@ class Topic extends Model
         'created_by',
         'updated_by',
     ];
+
+    protected static function booted()
+    {
+        static::addGlobalScope('current_office', function (Builder $builder) {
+            if(auth()->user()->role === 'user'){
+                $builder->where('office_id', auth()->user()->office_id)
+                        ->orWhereNull('office_id');
+            }
+        });
+    }
 
     public function scopeCurrentoffice($query){
         if(auth()->user()->role === 'user'){

@@ -14,7 +14,7 @@ class OfficerController extends Controller
      */
     public function index()
     {
-        $officers = Officer::with('office')->currentoffice()->get();
+        $officers = Officer::with('office')->get();
         return inertia('officer/Index', [
             'officers' => $officers
         ]);

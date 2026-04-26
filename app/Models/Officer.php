@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Helpers\HasDefault;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class Officer extends Model
 {
@@ -42,5 +43,15 @@ class Officer extends Model
         if(auth()->user()->role === 'user'){
             $query->where('office_id', auth()->user()->office_id);
         }
+    }
+
+    protected static function booted()
+    {
+        static::addGlobalScope('current_office', function (Builder $builder) {
+            if(auth()->user()->role === 'user'){
+                $builder->where('office_id', auth()->user()->office_id)
+                        ->orWhereNull('office_id');
+            }
+        });
     }
 }

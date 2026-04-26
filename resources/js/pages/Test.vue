@@ -1,95 +1,131 @@
-<script>
+<script setup>
+import { ref } from 'vue'
+import { Head, useForm } from '@inertiajs/vue3'
+import AppLayout from '@/layouts/AppLayout.vue'
 
+const form = useForm({
+    subject: '',
+    letter_number: '',
+    letter_date: '',
+    priority: 'normal',
+    office_id: '',
+    body: '',
+    attachments: [],
+})
+
+const handleSubmit = () => {
+    form.post(route('letters.store'))
+}
+
+const breadcrumbs = [
+    { title: 'Folders', href: route('folders.index') },
+    { title: 'Create', href: route('folders.create') },
+]
 </script>
 
 <template>
-    <h1>Hello world</h1>
-    <Vueform>
-        <StaticElement name="h1" tag="h1" content="Officer Create Form" align="left" :expressions="true"
-            description="Input all * field" />
-        <TextElement name="text" label="Short text" />
-        <TextElement name="number" input-type="number" :rules="[
-            'nullable',
-            'numeric',
-        ]" autocomplete="off" label="Number" />
-        <TextElement name="email" input-type="email" :rules="[
-            'nullable',
-            'email',
-        ]" label="Email" />
-        <PhoneElement name="phone" label="Phone" :allow-incomplete="true" :unmask="true" />
-        <CheckboxgroupElement name="checkboxgroup" :items="[
-            'Option 1',
-            'Option 2',
-            'Option 3',
-        ]" label="Multiple choice" />
-        <RadiogroupElement name="radiogroup" :items="[
-            'Option 1',
-            'Option 2',
-            'Option 3',
-        ]" label="Single choice" />
-        <CheckboxElement name="checkbox" text="Decision box" />
-        <MatrixElement name="matrix" :cols="[
-            {
-                label: 'Column 1',
-                value: 'column_1',
-            },
-            {
-                label: 'Column 2',
-                value: 'column_2',
-            },
-        ]" :rows="[
-            {
-                label: 'Row 1',
-                value: 'row_1',
-            },
-            {
-                label: 'Row 2',
-                value: 'row_2',
-            },
-        ]" />
-        <MatrixElement name="matrixMulti" :cols="[
-            {
-                label: 'Column 1',
-                value: 'column_1',
-            },
-            {
-                label: 'Column 2',
-                value: 'column_2',
-            },
-        ]" :rows="[
-            {
-                label: 'Row 1',
-                value: 'row_1',
-            },
-            {
-                label: 'Row 2',
-                value: 'row_2',
-            },
-        ]" :input-type="{
-            type: 'checkbox',
-        }" />
-        <SelectElement name="select" :items="[
-            'Option 1',
-            'Option 2',
-            'Option 3',
-        ]" :search="true" :native="false" :strict="false" label="Dropdown" input-type="search" autocomplete="off" />
-        <TagsElement name="tags" :close-on-select="false" :search="true" :strict="false" :hide-selected="false" :items="[
-            'Option 1',
-            'Option 2',
-            'Option 3',
-        ]" label="Tags" input-type="search" autocomplete="off" />
-        <ToggleElement name="toggle" text="Toggle" />
-        <DateElement name="date" label="Date" display-format="DD/MM/YYYY" />
-        <DatesElement name="dateRange" label="Date range" mode="range" />
-        <TextElement name="url" input-type="url" :rules="[
-            'nullable',
-            'url',
-        ]" placeholder="eg. http(s)://domain.com" :floating="false" label="URL" />
-        <LocationElement name="location" label="Location" />
-        <FileElement name="image" view="image" label="Image upload" accept="image/*" :upload-temp-endpoint="false"
-            :remove-temp-endpoint="false" :remove-endpoint="false" :clickable="false" :soft-remove="true" />
-        <MultifileElement name="multifile" label="Multi-file upload" :upload-temp-endpoint="false"
-            :remove-temp-endpoint="false" :remove-endpoint="false" :clickable="false" :soft-remove="true"
-            :sort="true" />
-    </Vueform>
+
+    <Head title="Page" />
+    <AppLayout :breadcrumbs="breadcrumbs">
+        <div class="min-h-screen bg-gray-100 p-3">
+
+            <form @submit.prevent="handleSubmit" class="space-y-6">
+
+                <!-- Basic Info -->
+                <div class="bg-white rounded-xl shadow p-6 space-y-4">
+
+                    <h2 class="text-lg font-semibold text-gray-700 border-b pb-2">
+                        Basic Information
+                    </h2>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                        <div>
+                            <label class="text-sm text-gray-600">Letter Number</label>
+                            <input v-model="form.letter_number" class="w-full border rounded-lg p-2 mt-1" type="text" />
+                        </div>
+
+                        <div>
+                            <label class="text-sm text-gray-600">Date</label>
+                            <input v-model="form.letter_date" class="w-full border rounded-lg p-2 mt-1" type="date" />
+                        </div>
+
+                    </div>
+
+                    <div>
+                        <label class="text-sm text-gray-600">Subject</label>
+                        <input v-model="form.subject" class="w-full border rounded-lg p-2 mt-1" type="text" />
+                    </div>
+
+                    <div>
+                        <label class="text-sm text-gray-600">Priority</label>
+                        <select v-model="form.priority" class="w-full border rounded-lg p-2 mt-1">
+                            <option value="normal">Normal</option>
+                            <option value="urgent">Urgent</option>
+                            <option value="most_urgent">Most Urgent</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <!-- Office Section -->
+                <div class="bg-white rounded-xl shadow p-6">
+
+                    <h2 class="text-lg font-semibold text-gray-700 border-b pb-2">
+                        Office & Recipient
+                    </h2>
+
+                    <div class="mt-4">
+                        <label class="text-sm text-gray-600">Office</label>
+                        <select v-model="form.office_id" class="w-full border rounded-lg p-2 mt-1">
+                            <option value="">Select Office</option>
+                            <option value="1">Head Office</option>
+                            <option value="2">Branch Office</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <!-- Body -->
+                <div class="bg-white rounded-xl shadow p-6">
+
+                    <h2 class="text-lg font-semibold text-gray-700 border-b pb-2">
+                        Letter Body
+                    </h2>
+
+                    <textarea v-model="form.body" rows="6" class="w-full border rounded-lg p-2 mt-3"
+                        placeholder="Write your letter content..."></textarea>
+
+                </div>
+
+                <!-- Attachments -->
+                <div class="bg-white rounded-xl shadow p-6">
+
+                    <h2 class="text-lg font-semibold text-gray-700 border-b pb-2">
+                        Attachments
+                    </h2>
+
+                    <input type="file" multiple class="mt-4 w-full border p-2 rounded-lg"
+                        @change="e => form.attachments = e.target.files" />
+
+                </div>
+
+                <!-- Actions -->
+                <div class="flex justify-end gap-3">
+
+                    <button type="button" class="px-5 py-2 border rounded-lg hover:bg-gray-200">
+                        Cancel
+                    </button>
+
+                    <button type="submit" class="px-5 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">
+                        Submit
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </AppLayout>
 </template>
