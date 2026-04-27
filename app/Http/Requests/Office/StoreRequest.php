@@ -23,17 +23,24 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'ministry_name' => ['required', 'array'],
+            'ministry_name.bn' => ['required', 'string', 'max:255'],
+            'ministry_name.en' => ['required', 'string', 'max:255'],
             'office_name' => ['required', 'array'],
             'office_name.bn' => ['required', 'string', 'max:255'],
             'office_name.en' => ['required', 'string', 'max:255'],
-            'upazila' => ['required', 'array'],
-            'upazila.bn' => ['required', 'string', 'max:255'],
-            'upazila.en' => ['required', 'string', 'max:255'],
+            'upazila' => ['nullable'],
+            'upazila.bn' => ['nullable', 'string', 'max:255'],
+            'upazila.en' => ['nullable', 'string', 'max:255'],
             'district' => ['required', 'array'],
             'district.bn' => ['required', 'string', 'max:255'],
             'district.en' => ['required', 'string', 'max:255'],
-            'geo_code' => ['required', 'numeric', 'digits_between:3,4'],
-            'office_code' => ['required', 'numeric', 'digits_between:12,13'],
+            'geo_code' => ['required', 'numeric', 'digits:4'],
+            'ddo_code' => ['required', 'unique:offices,ddo_code', 'numeric', 'digits:13'],
+            'ministry_code' => ['required', 'numeric', 'digits:2'],
+            'office_level_code' => ['required', 'numeric', 'digits:2'],
+            'section' => ['required', 'numeric', 'digits_between:1,2'],
+            
         ];
     }
 }

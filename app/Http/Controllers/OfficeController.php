@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Office\StoreRequest;
+use App\Http\Requests\Office\UpdateRequest;
 use App\Models\Office;
 use Illuminate\Http\Request;
 
@@ -17,12 +18,9 @@ class OfficeController extends Controller
      */
     public function index()
     {
-        $offices = Office::all()->map(function ($office) {
-            $office->office_name = json_decode($office->office_name, true);
-            $office->upazila = json_decode($office->upazila, true);
-            $office->district = json_decode($office->district, true);
-            return $office;
-        });
+        
+        $offices = Office::all();
+        // dd($offices->toArray());
         return inertia('offices/Index', [
             'offices' => $offices,
         ]);
@@ -42,23 +40,16 @@ class OfficeController extends Controller
     public function store(StoreRequest $request)
     {
         $data = $request->validated();
-        $data_to_submit = [
-            'office_name' => json_encode([
-                'bn' => $data['office_name']['bn'],
-                'en' => $data['office_name']['en'],
-            ]),
-            'upazila' => json_encode([
-                'bn' => $data['upazila']['bn'],
-                'en' => $data['upazila']['en'],
-            ]),
-            'district' => json_encode([
-                'bn' => $data['district']['bn'],
-                'en' => $data['district']['en'],
-            ]),
-            'geo_code' => $data['geo_code'],
-            'office_code' => $data['office_code'],
-        ];
-        Office::create($data_to_submit);
+        $exist = Office::where('office_name->en', $data['office_name']['en'])
+                ->where('office_name->bn', $data['office_name']['bn'])
+                ->where('upazila->bn', $data['upazila']['bn'])
+                ->where('district->bn', $data['district']['bn'])
+                ->count();
+        if($exist) return redirect()->back()->with('toast', [
+            'type' => 'error',
+            'message' => 'Office Already Exist!'
+        ]);
+        Office::create($data);
         return redirect()->route('offices.index')->with('success', 'Office created successfully.');
     }
 
@@ -67,7 +58,9 @@ class OfficeController extends Controller
      */
     public function show(Office $office)
     {
-        //
+        return inertia('offices/Show', [
+            'office' => $office
+        ]);
     }
 
     /**
@@ -87,26 +80,10 @@ class OfficeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(\App\Http\Requests\Office\UpdateRequest $request, Office $office)
+    public function update(UpdateRequest $request, Office $office)
     {
         $data = $request->validated();
-        $data_to_update = [
-            'office_name' => json_encode([
-                'bn' => $data['office_name']['bn'],
-                'en' => $data['office_name']['en'],
-            ]),
-            'upazila' => json_encode([
-                'bn' => $data['upazila']['bn'],
-                'en' => $data['upazila']['en'],
-            ]),
-            'district' => json_encode([
-                'bn' => $data['district']['bn'],
-                'en' => $data['district']['en'],
-            ]),
-            'geo_code' => $data['geo_code'],
-            'office_code' => $data['office_code'],
-        ];
-        $office->update($data_to_update);
+        $office->update($data);
         $toast = [
           'message' => 'Office updated successfully.', 
           'type' => 'success'

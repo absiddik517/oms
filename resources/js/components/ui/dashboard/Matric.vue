@@ -16,9 +16,10 @@
 
             <span
                 class="flex items-center gap-1 rounded-full bg-success-50 py-0.5 pl-2 pr-2.5 text-sm font-medium text-success-600 dark:bg-success-500/15 dark:text-success-500">
-                <i v-if="props.change > 0" class="fa fa-arrow-up"></i>
-                <i v-else class="fa fa-arrow-down"></i>
-                {{ props.change }}
+                <i v-if="props.change > 0" class="text-green-600 fa fa-arrow-up"></i>
+                <i v-else class="text-red-600 fa fa-arrow-down"></i>
+                <span v-if="props.change > 0" class="text-green-600">{{ props.change }}</span>
+                <span v-else class="text-red-600">{{ props.change }}</span>
             </span>
         </div>
     </div>

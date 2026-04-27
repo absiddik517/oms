@@ -13,16 +13,18 @@ return new class extends Migration
     {
         Schema::create('officers', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('office_id')->constrained('offices')->onDelete('cascade');
             $table->string('name');
             $table->string('designation')->nullable();
-            $table->enum('category', ['regular', 'additional', 'current'])->default('regular');
-            $table->string('address')->nullable();
+            $table->string('suboridinate_office_name')->nullabel();
+            $table->string('suboridinate_office_code')->default('000');
+            $table->string('section_name')->nullabel();
+            $table->string('section_code')->default('000');
             $table->string('email')->nullable();
             $table->string('phone')->nullable();
             $table->enum('status', ['active', 'leaved'])->default('active');
             $table->date('joining_date')->nullable();
             $table->date('leaving_date')->nullable();
-            $table->foreignId('office_id')->constrained('offices')->onDelete('cascade');
             $table->foreignId('created_by')->nullable()->constrained('users')->nullOnDelete();
             $table->foreignId('updated_by')->nullable()->constrained('users')->nullOnDelete();
             $table->timestamps();

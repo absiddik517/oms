@@ -13,11 +13,15 @@ return new class extends Migration
     {
         Schema::create('offices', function (Blueprint $table) {
             $table->id();
+            $table->json('ministry_name');
             $table->json('office_name');
-            $table->json('upazila');
+            $table->json('upazila')->nullable();
             $table->json('district');
+            $table->string('ministry_code');
+            $table->string('office_level_code')->default('00');
             $table->string('geo_code')->nullable();
-            $table->string('office_code')->nullable();
+            $table->string('ddo_code')->nullable();
+            $table->integer('section')->default(0);
             $table->timestamps();
         });
     }
