@@ -88,9 +88,7 @@ export default {
                             </td>
                             <td>
                                 <Badge v-if="user.office" type="success" no_icon>
-                                    {{ JSON.parse(user.office.office_name).bn }}, {{
-                                        JSON.parse(user.office.upazila).bn }}, {{
-                                        JSON.parse(user.office.district).bn }}
+                                    {{ user.office.name_bn }}
                                 </Badge>
                                 <Badge v-else type="danger">
                                     No Office Assigned

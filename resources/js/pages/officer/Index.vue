@@ -74,8 +74,7 @@ export default {
                             <td class="px-6 py-4">
                                 {{ officer.name }} <br />
                                 {{ officer.designation }} <br />
-                                {{ JSON.parse(officer.office.office_name).bn }}, {{
-                                    JSON.parse(officer.office.upazila).bn }}, {{ JSON.parse(officer.office.district).bn }}
+                                {{ officer.office.name_bn }}
                             </td>
                             <td class="px-6 py-4 text-center">
                                 <p v-if="officer.email"><i class="fa fa-envelope"></i> {{ officer.email }}</p>

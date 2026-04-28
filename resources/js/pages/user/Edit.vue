@@ -72,8 +72,7 @@ export default {
                         class="mt-2 flex h-9 w-full rounded-xl border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm">
                         <option value="">Select Office</option>
                         <option v-for="office in offices" :key="office.id" :value="office.id">
-                            {{ JSON.parse(office.office_name).bn }}, {{ JSON.parse(office.upazila).bn }}, {{
-                                JSON.parse(office.district).bn }}
+                            {{ office.name_bn }}
                         </option>
                     </select>
                     <div class="text-red-500 text-sm" v-if="form.errors.office_id">{{ form.errors.office_id }}</div>

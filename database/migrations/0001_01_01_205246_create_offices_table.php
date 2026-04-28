@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('ministry_code');
             $table->string('office_level_code')->default('00');
             $table->string('geo_code')->nullable();
-            $table->string('ddo_code')->nullable();
+            $table->string('ddo_code')->unique()->nullable();
             $table->integer('section')->default(0);
             $table->timestamps();
         });

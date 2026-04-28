@@ -68,10 +68,6 @@ class OfficeController extends Controller
      */
     public function edit(Office $office)
     {
-        // Decode JSON fields for the form
-        $office->office_name = json_decode($office->office_name, true);
-        $office->upazila = json_decode($office->upazila, true);
-        $office->district = json_decode($office->district, true);
         return inertia('offices/Edit', [
             'office' => $office,
         ]);
@@ -83,12 +79,19 @@ class OfficeController extends Controller
     public function update(UpdateRequest $request, Office $office)
     {
         $data = $request->validated();
-        $office->update($data);
-        $toast = [
-          'message' => 'Office updated successfully.', 
-          'type' => 'success'
-        ];
-        return redirect()->route('offices.index')->with('toast', $toast);
+        try{
+            $office->update($data);
+            $toast = [
+              'message' => 'Office updated successfully.', 
+              'type' => 'success'
+            ];
+            }catch(\Exception $e){
+                $toast = [
+                    'message' => $e->getMessage(),
+                    'type' => 'error',
+                ];
+            }
+            return redirect()->back()->with('toast', $toast);
     }
 
     /**
