@@ -15,7 +15,7 @@ class RecipientController extends Controller
      */
     public function index()
     {
-        $recipients = Recipient::all();
+        $recipients = Recipient::with('office')->get();
         return inertia('letter/recipient/Index', [
             'recipients' => $recipients, 
         ]);
@@ -67,7 +67,7 @@ class RecipientController extends Controller
      */
     public function edit(string $id)
     {
-        $recipient = Recipient::findOrFail($id);
+        $recipient = Recipient::with('office')->findOrFail($id);
         return inertia('letter/recipient/Edit', [
             'recipient' => $recipient,
             'offices'   => Office::all(),

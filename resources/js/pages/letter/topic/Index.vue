@@ -71,7 +71,7 @@ export default {
                         <tr v-for="topic in topics" :key="topic.id" class="bg-neutral-primary border-b border-default">
                             <td class="px-6 py-4">{{ topic.id }}</td>
                             <td v-if="$page.props.auth.user.role === 'admin'" class="px-6 py-4">
-                                {{ topic.office_id }}
+                                {{ topic.office.name_bn }}
                             </td>
                             <td>
                                 {{ topic.name }}

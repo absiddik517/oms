@@ -18,7 +18,13 @@ export default {
     },
     methods: {
         toBN(num) {
-            return num.toString().replace(/\d/g, d => '০১২৩৪৫৬৭৮৯'[d]);
+            var string = null;
+            if (typeof (num) == 'string') {
+                string = num;
+            } else {
+                string = num.toString();
+            }
+            return string.replace(/\d/g, d => '০১২৩৪৫৬৭৮৯'[d]);
         }
     },
     computed: {
@@ -44,16 +50,12 @@ export default {
             <div class="border-b pb-4 mb-4">
                 <h4 class="text-center">গণপ্রজাতন্ত্রী বাংলাদেশ সরকার</h4>
                 <h4 class="text-center">উপজেলা উপানুষ্ঠানিক শিক্ষা কর্মকর্তার কার্যালয়</h4>
-                <h4 class="text-center">{{ JSON.parse(letter.office.office_name).bn }}</h4>
-                <h4 class="text-center">{{ JSON.parse(letter.office.upazila).bn }}, {{
-                    JSON.parse(letter.office.district).bn }}</h4>
-
+                <h4 class="text-center">{{ letter.office.office_name.bn }}</h4>
+                <h4 class="text-center">{{ letter.office.upazila.bn }}, {{
+                    letter.office.district.bn }}</h4>
                 <div class="flex items-center">
                     <div class="text-gray-600 mt-1">
-                        <p>স্মারক নং: ৩৮.০২.{{ toBN(letter.office.geo_code) }}.০০০.{{ toBN(letter.topic.code) }}.{{
-                            toBN(letter.folder.code) }}.{{
-                                toBN(new Date(letter.letter_date).getFullYear().toString().slice(-2)) }}-{{
-                                toBN(letter.letter_number) }}
+                        <p>স্মারক নং: {{ toBN(letter.memo_number) }}
                         </p>
                     </div>
 
@@ -93,9 +95,9 @@ export default {
                     <template v-else>
                         <Badge type="danger">No officer selected.</Badge>
                     </template>
-                    <p class="ml-auto">{{ JSON.parse(letter.office.office_name).bn }}</p>
-                    <p class="ml-auto">{{ JSON.parse(letter.office.upazila).bn }}, {{
-                        JSON.parse(letter.office.district).bn }}</p>
+                    <p class="ml-auto">{{ letter.office.office_name.bn }}</p>
+                    <p class="ml-auto">{{ letter.office.upazila.bn }}, {{
+                        letter.office.district.bn }}</p>
                 </div>
             </div>
             <!-- CC -->

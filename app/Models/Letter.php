@@ -23,7 +23,7 @@ class Letter extends Model
     ];
 
 
-    protected $appends = ['date'];
+    protected $appends = ['date', 'memo_number'];
 
     public function office()
     {
@@ -114,5 +114,24 @@ class Letter extends Model
         $output['lunar'] = $lunar;
         return $output;
 
+    }
+
+    public function getMemoNumberAttribute(){
+        $office = $this->office;
+        $officer = $this->officer;
+        $topic = $this->topic;
+        $folder = $this->folder;
+        $codes = join('.', [
+            $office->ministry_code,
+            $office->office_level_code,
+            $office->geo_code,
+            $officer->suboridinate_office_code,
+            $officer->section_code,
+            $topic->code,
+            $folder->code,
+            date('y', strtotime($folder->creation_date)),
+        ]);
+        $codes .= '-'.$this->letter_number;
+        return $codes;
     }
 }

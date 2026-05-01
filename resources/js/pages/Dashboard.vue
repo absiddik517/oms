@@ -22,6 +22,7 @@ defineProps<{
     count: number;
     change: string;
   };
+  inspire: String,
 
 }>();
 </script>
@@ -56,6 +57,7 @@ defineProps<{
         </div>
         <div
           class="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
+          <div v-html="inspire"></div>
           <PlaceholderPattern />
         </div>
       </div>

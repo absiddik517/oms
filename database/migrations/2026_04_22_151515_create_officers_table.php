@@ -16,9 +16,9 @@ return new class extends Migration
             $table->foreignId('office_id')->constrained('offices')->onDelete('cascade');
             $table->string('name');
             $table->string('designation')->nullable();
-            $table->string('suboridinate_office_name')->nullabel();
+            $table->string('suboridinate_office_name')->nullable();
             $table->string('suboridinate_office_code')->default('000');
-            $table->string('section_name')->nullabel();
+            $table->string('section_name')->nullable();
             $table->string('section_code')->default('000');
             $table->string('email')->nullable();
             $table->string('phone')->nullable();

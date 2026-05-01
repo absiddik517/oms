@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Office;
 use App\Models\Topic;
-
-
+use Artisan;
 
 class DashboardController extends Controller
 {
@@ -13,9 +12,13 @@ class DashboardController extends Controller
      */
     public function index()
     {
+        Artisan::call('inspire');
+
+        $output = Artisan::output();
         return inertia('Dashboard', [
             "offices" => $this->dashboardInformation(Office::class),
             "topics" => $this->dashboardInformation(Topic::class),
+            "inspire" => $output
         ]);
     }
 

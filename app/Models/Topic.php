@@ -39,5 +39,9 @@ class Topic extends Model
         }
     }
 
+    public function office() {
+        return $this->belongsTo(Office::class);
+    }
+
     
 }

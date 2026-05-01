@@ -25,12 +25,7 @@ class FolderController extends Controller
      */
     public function create()
     {
-        $offices = Office::all()->map(function ($office) {
-            $office->office_name = json_decode($office->office_name, true);
-            $office->upazila = json_decode($office->upazila, true);
-            $office->district = json_decode($office->district, true);
-            return $office;
-        });
+        $offices = Office::all();
         return inertia('letter/folder/Create', [
             'offices' => $offices,
         ]);
@@ -81,12 +76,7 @@ class FolderController extends Controller
             403,
             "You are not auhorized to edit the folder."
         );
-        $offices = Office::all()->map(function ($office) {
-            $office->office_name = json_decode($office->office_name, true);
-            $office->upazila = json_decode($office->upazila, true);
-            $office->district = json_decode($office->district, true);
-            return $office;
-        });
+        $offices = Office::all();
         return inertia('letter/folder/Edit', [
             'folder' => $folder,
             'offices' => $offices,

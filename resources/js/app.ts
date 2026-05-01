@@ -8,6 +8,7 @@ import { createApp, h } from 'vue';
 import FontAwesomeIcon from './plugins/fontawesome';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 import { initializeTheme } from './composables/useAppearance';
+//import 'jodit/es2021/jodit.min.css'
 
 // Extend ImportMeta interface for Vite...
 declare module 'vite/client' {

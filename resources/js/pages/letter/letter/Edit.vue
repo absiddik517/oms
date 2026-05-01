@@ -3,6 +3,7 @@ import AppLayout from '@/layouts/AppLayout.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import Input from '@/components/ui/form/Input.vue';
 import Button from '@/components/ui/Button.vue';
+import JoditEditor from '@/components/ui/form/JoditEditor.vue';
 
 export default {
     name: 'LetterEdit',
@@ -13,6 +14,7 @@ export default {
         Link,
         Input,
         Button,
+        JoditEditor,
     },
 
     props: {
@@ -47,6 +49,11 @@ export default {
                 attachments: [],
                 deleted_attachments: [],
             }),
+
+            editorConfig: {
+                height: 500,
+                placeholder: 'Start writing your content...'
+            },
 
             loading: false,
 
@@ -112,8 +119,7 @@ export default {
                     <select v-model="form.office_id" class="input">
                         <option value="">Select Office</option>
                         <option v-for="office in offices" :key="office.id" :value="office.id">
-                            {{ getOfficeName(office) }}, {{ JSON.parse(office.upazila).bn }}, {{
-                                JSON.parse(office.district).bn }}
+                            {{ office.name_bn }}
                         </option>
                     </select>
                     <div class="text-red-500 text-sm">{{ form.errors.office_id }}</div>
@@ -167,7 +173,7 @@ export default {
                 <!-- BODY -->
                 <div>
                     <label>Body</label>
-                    <textarea v-model="form.body" class="input h-40"></textarea>
+                    <JoditEditor v-model="form.body" :config="editorConfig" />
                 </div>
 
                 <!-- DATE -->

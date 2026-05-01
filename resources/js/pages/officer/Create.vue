@@ -27,10 +27,10 @@ export default {
                 office_id: this.$page.props.auth.user.office_id,
                 name: '',
                 designation: '',
-                suboridinate_office_name: '',
-                suboridinate_office_code: '',
-                section_name: '',
-                section_code: '',
+                suboridinate_office_name: null,
+                suboridinate_office_code: null,
+                section_name: null,
+                section_code: null,
                 email: '',
                 phone: '',
                 joining_date: '',
@@ -158,6 +158,13 @@ export default {
                                     form.errors.section_code
                                 }}</div>
                             </div>
+                        </div>
+                        <div>
+                            <label>Joining Date</label>
+                            <input v-model="form.joining_date" type="date" class="border p-2 w-full" />
+                            <div class="text-red-500 text-sm" v-if="form.errors.joining_date">{{
+                                form.errors.joining_date
+                            }}</div>
                         </div>
 
                     </div>
