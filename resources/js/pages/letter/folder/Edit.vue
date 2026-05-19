@@ -29,10 +29,11 @@ export default {
     data() {
         return {
             form: useForm({
-                "name": this.folder.name,
-                "description": this.folder.description,
-                "code": this.folder.code,
+                name: this.folder.name,
+                description: this.folder.description,
+                code: this.folder.code,
                 'office_id': this.folder.office_id,
+                creation_date: this.folder.creation_date,
             }),
             loading: false,
             breadcrumbs: [
@@ -94,9 +95,16 @@ export default {
                     <Input v-model="form.code" class="mt-2" id="folder_code" placeholder="Folder Code" type="text" />
                     <div class="text-red-500 text-sm" v-if="form.errors.code">{{ form.errors.code }}</div>
                 </div>
+                <div>
+                    <label for="folder_creation_date">Creation Date</label>
+                    <Input v-model="form.creation_date" class="mt-2" id="folder_creation_date"
+                        placeholder="Folder Creation_date" type="text" />
+                    <div class="text-red-500 text-sm" v-if="form.errors.creation_date">{{ form.errors.creation_date }}
+                    </div>
+                </div>
                 <div class="form-group text-right">
-                    <Button type="submit" :loading="loading">
-                        <span v-if="loading">Updating</span>
+                    <Button type="submit" :loading="form.processing">
+                        <span v-if="form.processing">Updating</span>
                         <span v-else>Update</span>
                     </Button>
                     <Link :href="route('folders.index')" class="ml-2 text-gray-600">Cancel</Link>

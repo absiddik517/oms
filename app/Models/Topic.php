@@ -43,5 +43,12 @@ class Topic extends Model
         return $this->belongsTo(Office::class);
     }
 
+    public function letters()
+    {
+        return $this->hasMany(Letter::class);
+    }
+
+
+
     
 }

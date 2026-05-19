@@ -17,7 +17,7 @@ class Office extends Model
     protected $appends = [
         'name_bn', 
         'name_en',
-        
+        'short_name',  
     ];
     protected $casts = [
         'ministry_name' => 'array',
@@ -34,7 +34,26 @@ class Office extends Model
         });
     }
 
-   
+    public function getShortNameAttribute(){
+        $name = $this->office_name['en'];
+        $short_chars_to_display = 5;
+        $output = "";
+        $chars = array_filter(str_split($name), function($item){
+            $capitals = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+            if(in_array($item, $capitals)){
+                return $item;
+            }
+        });
+        $short_name = join('', $chars);
+        $output .= $short_name;
+        if($this->upazila['en']){
+            $short_upazila = str_split($this->upazila['en'], $short_chars_to_display)[0];
+            $output .= ', '.$short_upazila;
+        }
+        $short_district = str_split($this->district['en'], $short_chars_to_display)[0];
+        $output .= ', '.$short_district;
+        return $output;
+    }
     
     public function getNameBnAttribute()
     {

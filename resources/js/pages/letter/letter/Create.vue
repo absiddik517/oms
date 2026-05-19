@@ -5,6 +5,7 @@ import Input from '@/components/ui/form/Input.vue';
 import Button from '@/components/ui/Button.vue';
 import RichText from '@/components/ui/form/RichText.vue';
 import JoditEditor from '@/components/ui/form/JoditEditor.vue';
+import Inputs from '@/components/ui/form/Inputs.vue';
 
 export default {
     name: 'LetterCreate',
@@ -13,6 +14,7 @@ export default {
         Head,
         Link,
         Input,
+        Inputs,
         Button,
         RichText,
         JoditEditor,
@@ -96,54 +98,68 @@ export default {
             <form @submit.prevent="submit" class="space-y-4">
 
                 <!-- OFFICE -->
-                <div>
-                    <label>Office</label>
-                    <select v-model="form.office_id" class="input">
-                        <option value="">Select Office</option>
-                        <option v-for="office in offices" :key="office.id" :value="office.id">
-                            {{ office.name_bn }}
-                        </option>
-                    </select>
-                    <div class="text-red-500 text-sm">{{ form.errors.office_id }}</div>
+                <div class="flex flex-col md:flex-row gap-4">
+                    <div class="flex-1">
+                        <div>
+                            <label>Office</label>
+                            <select v-model="form.office_id" class="input">
+                                <option value="">Select Office</option>
+                                <option v-for="office in offices" :key="office.id" :value="office.id">
+                                    {{ office.name_bn }}
+                                </option>
+                            </select>
+                            <div class="text-red-500 text-sm">{{ form.errors.office_id }}</div>
+                        </div>
+                        <div>
+                            <label>Officer</label>
+                            <select v-model="form.officer_id" class="input">
+                                <option value="">Select Officer</option>
+                                <option v-for="officer in officers" :key="officer.id" :value="officer.id">
+                                    {{ officer.name }}
+                                </option>
+                            </select>
+                            <div class="text-red-500 text-sm">{{ form.errors.officer_id }}</div>
+                        </div>
+                        <div>
+                            <label>Letter Number</label>
+                            <Inputs v-model="form.letter_number" :form="form" field="letter_number" type="text" />
+                        </div>
+
+                    </div>
+                    <div class="flex-1">
+                        <div>
+                            <label>Topic</label>
+                            <select v-model="form.topic_id" class="input">
+                                <option value="">Select Topic</option>
+                                <option v-for="topic in topics" :key="topic.id" :value="topic.id">
+                                    {{ topic.name }}
+                                </option>
+                            </select>
+                        </div>
+
+                        <!-- FOLDER -->
+                        <div>
+                            <label>Folder</label>
+                            <select v-model="form.folder_id" class="input">
+                                <option value="">Select Folder</option>
+                                <option v-for="folder in folders" :key="folder.id" :value="folder.id">
+                                    {{ folder.name }}
+                                </option>
+                            </select>
+                        </div>
+                        <div>
+                            <label>Letter Date</label>
+                            <Input type="date" v-model="form.letter_date" />
+                        </div>
+
+                    </div>
                 </div>
-                <div>
-                    <label>Officer</label>
-                    <select v-model="form.officer_id" class="input">
-                        <option value="">Select Officer</option>
-                        <option v-for="officer in officers" :key="officer.id" :value="officer.id">
-                            {{ officer.name }}
-                        </option>
-                    </select>
-                    <div class="text-red-500 text-sm">{{ form.errors.officer_id }}</div>
-                </div>
+
 
                 <!-- TOPIC -->
-                <div>
-                    <label>Topic</label>
-                    <select v-model="form.topic_id" class="input">
-                        <option value="">Select Topic</option>
-                        <option v-for="topic in topics" :key="topic.id" :value="topic.id">
-                            {{ topic.name }}
-                        </option>
-                    </select>
-                </div>
-
-                <!-- FOLDER -->
-                <div>
-                    <label>Folder</label>
-                    <select v-model="form.folder_id" class="input">
-                        <option value="">Select Folder</option>
-                        <option v-for="folder in folders" :key="folder.id" :value="folder.id">
-                            {{ folder.name }}
-                        </option>
-                    </select>
-                </div>
 
                 <!-- LETTER NUMBER -->
-                <div>
-                    <label>Letter Number</label>
-                    <Input v-model="form.letter_number" />
-                </div>
+
 
                 <!-- SUBJECT -->
                 <div>
@@ -158,10 +174,7 @@ export default {
                 </div>
 
                 <!-- DATE -->
-                <div>
-                    <label>Letter Date</label>
-                    <Input type="date" v-model="form.letter_date" />
-                </div>
+
 
                 <!-- TO (single receiver) -->
                 <div>

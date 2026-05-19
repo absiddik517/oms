@@ -88,7 +88,7 @@ export default {
                             </td>
                             <td>
                                 <Badge v-if="user.office" type="success" no_icon>
-                                    {{ user.office.name_bn }}
+                                    {{ user.office.short_name }}
                                 </Badge>
                                 <Badge v-else type="danger">
                                     No Office Assigned

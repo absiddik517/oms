@@ -26,7 +26,7 @@ class StoreRequest extends FormRequest
         return [
             'office_id' => ['nullable', 'exists:offices,id'],
             'name' => ['required', 'string', 'max:255', new UniqueSubjectRule($this->office_id)],
-            'code' => ['required'],
+            'code' => ['required', 'digits:2'],
         ];
     }
 

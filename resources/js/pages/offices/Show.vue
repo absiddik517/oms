@@ -20,6 +20,14 @@ const breadcrumbs = [
     { title: 'Offices', href: route('offices.index') },
     { title: 'Show', href: '#' },
 ]
+
+const formateDate = (dateString) => {
+    return new Date(dateString).toLocaleString('en-BD', {
+        timeZone: 'Asia/Dhaka',
+        dateStyle: 'medium',
+        timeStyle: 'short'
+    })
+}
 </script>
 
 <template>
@@ -124,12 +132,12 @@ const breadcrumbs = [
 
                         <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-xl">
                             <p class="text-xs text-gray-500">Created At</p>
-                            <p class="font-semibold">{{ office?.created_at }}</p>
+                            <p class="font-semibold">{{ formateDate(office?.created_at) }}</p>
                         </div>
 
                         <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-xl">
-                            <p class="text-xs text-gray-500">Updated At</p>
-                            <p class="font-semibold">{{ office?.updated_at }}</p>
+                            <p class="text-xs text-gray-500">Last Updated At</p>
+                            <p class="font-semibold">{{ formateDate(office?.updated_at) }}</p>
                         </div>
 
                         <!-- 👇 Invisible placeholder to keep layout same -->

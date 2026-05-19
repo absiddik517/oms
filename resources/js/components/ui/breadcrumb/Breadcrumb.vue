@@ -13,9 +13,8 @@ const page = usePage();
         <div class="flex justify-between w-full">
             <slot />
             <div class="flex-1 ml-10">
-                <span class="text-gray-500 font-bold">{{ page.props.quote.message }}</span> <span
-                    class="text-gray-400">-{{
-                        page.props.quote.author }}</span>
+                <span class="text-gray-500">{{ page.props.quote.message }}</span> <span class="text-gray-400">-{{
+                    page.props.quote.author }}</span>
             </div>
         </div>
     </nav>

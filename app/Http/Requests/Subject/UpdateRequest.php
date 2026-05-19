@@ -33,7 +33,7 @@ class UpdateRequest extends FormRequest
                         $this->route('subject')
                     )
             ],
-            'code' => ['required'],
+            'code' => ['required', 'digits:2'],
         ];
     }
 }

@@ -39,7 +39,8 @@ class FolderController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
-            'code' => ['required'],
+            'code' => ['required', 'digits:4'],
+            'creation_date' => ['required'],
             'office_id' => ['required', 'exists:offices,id'],
         ]);
 
@@ -47,6 +48,7 @@ class FolderController extends Controller
             'name' => $request->name,
             'description' => $request->description,
             'code' => $request->code,
+            'creation_date' => $request->creation_date,
             'office_id' => $request->office_id,
         ]);
         $toast = [
@@ -97,22 +99,32 @@ class FolderController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
-            'code' => ['required'],
+            'code' => ['required', 'digits:4'],
+            'creation_date' => ['required'],
             'office_id' => ['required', 'exists:offices,id'],
         ]);
 
-        $folder->update([
-            'name' => $request->name,
-            'description' => $request->description,
-            'code' => $request->code,
-            'office_id' => $request->office_id,
-        ]);
-        $toast = [
-            'message' => 'Folder updated successfully.',
-            'type' => 'success',
-        ];
+        try{
+            $folder->update([
+                'name' => $request->name,
+                'description' => $request->description,
+                'code' => $request->code,
+                'office_id' => $request->office_id,
+                'creation_date' => $request->creation_date,
+            ]);
+            $toast = [
+                'message' => 'Folder updated successfully.',
+                'type' => 'success',
+            ];
+        }catch(\Exception $e){
+            $toast = [
+                'message' => $e->getMessage(),
+                'type' => "error"
+            ];
+        }
 
-        return redirect()->route('folders.index')->with('toast', $toast);
+
+        return redirect()->back()->with('toast', $toast);
     }
 
     /**

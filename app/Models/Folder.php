@@ -10,13 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
 class Folder extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        'office_id',
-        'name',
-        'description',
-        'code',
-        'is_active',
-    ];
+    protected $guarded = [];
 
     public function office()
     {
